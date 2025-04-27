@@ -5,367 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marco Ponce</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header id="home">
+    <header class="main-header">
         <div class="container">
-            <div class="header-content">
-                <div class="profile-image">
-                    <img src="marco.jpg" alt="Profile Photo">
-                </div>
-                <div class="header-text">
+            <div class="left-column">
+                <div class="profile">
+                    <img src="images/marco.jpg" alt="Marco Ponce" class="profile-image">
                     <h1>Marco Ponce</h1>
-                    <p> Computer Scientist </p>
-                    <div class="social-icons">
-                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="mailto:your.email@example.com"><i class="fas fa-envelope"></i></a>
-                    </div>
+                    <p>Computer Scientist</p>
+                    <ul class="contact-info">
+                        <li>
+                            <img src="images/location.png" alt="Location Icon" class="icon">
+                            Seton Hall University
+                        </li>
+                        <li>
+                            <img src="images/website.png" alt="Website Icon" class="icon">
+                            <a href="https://poncema4.github.io/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <img src="images/github.png" alt="GitHub Icon" class="icon">
+                            <a href="https://github.com/poncema4" target="_blank">GitHub</a>
+                        </li>
+                        <li>
+                            <img src="images/email.png" alt="Email Icon" class="icon">
+                            <a href="mailto:marcpon8@gmail.com">Email</a>
+                        </li>
+                    </ul>
                 </div>
+            </div>
+            <div class="right-column">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <section class="content">
+                    <h2>Welcome to My Website</h2>
+                    <p>This is the homepage. Click on the links above to explore more about me, my projects, and how to contact me.</p>
+                </section>
             </div>
         </div>
     </header>
-
-    <nav id="navbar">
-        <div class="container">
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <p>Hello! I'm a passionate computer science professional specializing in [your specialization]. With [X] years of experience in software development, I enjoy solving complex problems and building innovative solutions.</p>
-                <p>My background includes expertise in [relevant technologies/domains], and I'm committed to writing clean, efficient, and maintainable code that delivers exceptional user experiences.</p>
-                <div class="about-buttons">
-                    <a href="#" class="btn btn-primary">Download Resume</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    <div class="skills-grid">
-                        <div class="skill-item" data-skill="Python">
-                            <div class="skill-icon"><i class="fab fa-python"></i></div>
-                            <h4>Python</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="JavaScript">
-                            <div class="skill-icon"><i class="fab fa-js"></i></div>
-                            <h4>JavaScript</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="Java">
-                            <div class="skill-icon"><i class="fab fa-java"></i></div>
-                            <h4>Java</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="C++">
-                            <div class="skill-icon"><i class="fas fa-code"></i></div>
-                            <h4>C++</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Web Technologies</h3>
-                    <div class="skills-grid">
-                        <div class="skill-item" data-skill="HTML5">
-                            <div class="skill-icon"><i class="fab fa-html5"></i></div>
-                            <h4>HTML5</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="CSS3">
-                            <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
-                            <h4>CSS3</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="React">
-                            <div class="skill-icon"><i class="fab fa-react"></i></div>
-                            <h4>React</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="Node.js">
-                            <div class="skill-icon"><i class="fab fa-node-js"></i></div>
-                            <h4>Node.js</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Other Skills</h3>
-                    <div class="skills-grid">
-                        <div class="skill-item" data-skill="Git">
-                            <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
-                            <h4>Git</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="Docker">
-                            <div class="skill-icon"><i class="fab fa-docker"></i></div>
-                            <h4>Docker</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="AWS">
-                            <div class="skill-icon"><i class="fab fa-aws"></i></div>
-                            <h4>AWS</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item" data-skill="Machine Learning">
-                            <div class="skill-icon"><i class="fas fa-brain"></i></div>
-                            <h4>Machine Learning</h4>
-                            <div class="skill-level">
-                                <div class="skill-progress" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects-filter">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="web">Web Development</button>
-                <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
-                <button class="filter-btn" data-filter="ai">AI/ML</button>
-                <button class="filter-btn" data-filter="other">Other</button>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card" data-category="web">
-                    <div class="project-image">
-                        <img src="/api/placeholder/400/300" alt="Project 1">
-                    </div>
-                    <div class="project-info">
-                        <h3>E-Commerce Platform</h3>
-                        <p>A full-stack e-commerce solution with secure payment processing and inventory management.</p>
-                        <div class="project-tech">
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>MongoDB</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fab fa-github"></i> Code</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card" data-category="ai">
-                    <div class="project-image">
-                        <img src="/api/placeholder/400/300" alt="Project 2">
-                    </div>
-                    <div class="project-info">
-                        <h3>Image Recognition App</h3>
-                        <p>Machine learning application that identifies and classifies objects in uploaded images.</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>TensorFlow</span>
-                            <span>Flask</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fab fa-github"></i> Code</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card" data-category="mobile">
-                    <div class="project-image">
-                        <img src="/api/placeholder/400/300" alt="Project 3">
-                    </div>
-                    <div class="project-info">
-                        <h3>Fitness Tracker App</h3>
-                        <p>Mobile application that helps users track workouts, nutrition, and fitness goals.</p>
-                        <div class="project-tech">
-                            <span>React Native</span>
-                            <span>Firebase</span>
-                            <span>Redux</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fas fa-external-link-alt"></i> App Store</a>
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fab fa-github"></i> Code</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card" data-category="other">
-                    <div class="project-image">
-                        <img src="/api/placeholder/400/300" alt="Project 4">
-                    </div>
-                    <div class="project-info">
-                        <h3>Smart Home Dashboard</h3>
-                        <p>IoT system for monitoring and controlling home devices from a central dashboard.</p>
-                        <div class="project-tech">
-                            <span>Raspberry Pi</span>
-                            <span>Python</span>
-                            <span>MQTT</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
-                            <a href="#" class="btn btn-sm" target="_blank"><i class="fab fa-github"></i> Code</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience">
-        <div class="container">
-            <h2 class="section-title">Experience & Education</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2022 - Present</div>
-                    <div class="timeline-content">
-                        <h3>Senior Software Developer</h3>
-                        <h4>Tech Company, Inc.</h4>
-                        <p>Lead development of high-traffic web applications. Architected scalable solutions and mentored junior developers in best practices.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2019 - 2022</div>
-                    <div class="timeline-content">
-                        <h3>Software Engineer</h3>
-                        <h4>Innovation Labs</h4>
-                        <p>Developed full-stack applications using React, Node.js, and MongoDB. Implemented CI/CD pipelines and improved performance by 40%.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2017 - 2019</div>
-                    <div class="timeline-content">
-                        <h3>Junior Developer</h3>
-                        <h4>Startup Solutions</h4>
-                        <p>Created responsive web interfaces and RESTful APIs. Participated in agile development cycles and code reviews.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2013 - 2017</div>
-                    <div class="timeline-content">
-                        <h3>B.S. Computer Science</h3>
-                        <h4>University Name</h4>
-                        <p>Graduated with honors. Specialized in software engineering and machine learning. Member of programming club and game development team.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Me</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <h3>Email</h3>
-                        <p>your.email@example.com</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <h3>Phone</h3>
-                        <p>+1 (555) 123-4567</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h3>Location</h3>
-                        <p>San Francisco, CA</p>
-                    </div>
-                    <div class="contact-social">
-                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Marco Ponce. All Rights Reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
-
-    <a href="#home" class="scroll-top">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-
-    <script src="script.js"></script>
 </body>
 </html>
