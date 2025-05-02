@@ -52,7 +52,7 @@
                         <img src="images/password_generator.png" alt="Password Generator">
                         <span>Password Gen</span>
                     </a>
-                    <a href="https://tic-tac-toe-eight-gules.vercel.app/" class="app-icon" target="_blank" rel="noopener noreferrer">
+                    <a href="#play-tictactoe" class="app-icon">
                         <img src="images/tic_tac_toe.png" alt="Tic Tac Toe">
                         <span>Tic Tac Toe</span>
                     </a>
@@ -60,6 +60,37 @@
                         <img src="images/orcid.png" alt="ORCID">
                         <span>ORCID</span>
                     </a>
+                </div>
+                
+                <!-- Game container -->
+                <div class="game-container">
+                    <div class="camera-cutout"></div>
+                    <div class="game-header">
+                        <div class="game-title">Tic Tac Toe</div>
+                        <button class="close-game">×</button>
+                    </div>
+                    
+                    <div class="loading-screen">
+                        <div class="game-title">Loading Game...</div>
+                        <div class="loading-bar-container">
+                            <div class="loading-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="game-board">
+                        <div class="cell" data-index="0"></div>
+                        <div class="cell" data-index="1"></div>
+                        <div class="cell" data-index="2"></div>
+                        <div class="cell" data-index="3"></div>
+                        <div class="cell" data-index="4"></div>
+                        <div class="cell" data-index="5"></div>
+                        <div class="cell" data-index="6"></div>
+                        <div class="cell" data-index="7"></div>
+                        <div class="cell" data-index="8"></div>
+                    </div>
+
+                    <div class="game-status"></div>
+                    <button class="reset-game">Reset Game</button>
                 </div>
             </div>
         </div>
@@ -120,5 +151,6 @@
     <script src="js/view-toggle.js"></script>
     <script src="script.js"></script>
     <script src="js/cursor-follower.js"></script>
+    <script src="js/game.js"></script>
 </body>
 </html>

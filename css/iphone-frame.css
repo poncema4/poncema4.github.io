@@ -333,3 +333,144 @@
 .view-toggle:active span {
     animation: slideText 0.4s ease-in-out;
 }
+
+/* Game container */
+.game-container {
+    display: none;
+    position: absolute;
+    top: 45%;  /* adjusted from 50% */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 40px); /* wider container */
+    height: calc(100% - 120px); /* taller container */
+    background: #000;
+    z-index: 1000;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 40px;
+}
+
+.camera-cutout {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: #000;
+    z-index: 1002;
+    border-radius: 25px 25px 0 0;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px; /* reduced padding */
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+}
+
+.game-title {
+    color: white;
+    font-size: 16px; /* smaller font */
+}
+
+.close-game {
+    color: white;
+    font-size: 20px; /* smaller close button */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Loading screen */
+.loading-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loading-bar-container {
+    width: 70%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 20px;
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background: #06b6d4;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+/* Game board */
+.game-board {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px; /* bigger gap */
+    padding: 15px; /* more padding */
+    margin-top: 40px; /* more space from top */
+    width: 90%; /* wider board */
+    max-width: 280px; /* larger max width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cell {
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px; /* larger radius */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px; /* larger font */
+    color: white !important; /* force white color */
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+/* Remove color overrides for X and O */
+.cell.x, .cell.o {
+    color: white !important;
+}
+
+.cell:hover {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.reset-game {
+    display: block;
+    margin: 10px auto;
+    padding: 6px 12px; /* smaller button */
+    background: #ffffff;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-size: 12px; /* smaller font */
+}
+
+.reset-game:hover {
+    transform: scale(0.95);
+}
+
+.game-status {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px; /* smaller status text */
+}
