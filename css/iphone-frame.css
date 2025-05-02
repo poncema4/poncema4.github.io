@@ -8,8 +8,8 @@
 }
 
 .iphone-frame {
-    width: 300px;  /* increased from 280px */
-    height: 580px; /* adjusted from 560px */
+    width: 380px;  /* increased width */
+    height: 680px; /* increased height */
     background: #000;
     border-radius: 45px;
     position: relative;
@@ -66,17 +66,19 @@
 
 .app-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px 20px;
-    padding: 35px 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px 20px;
+    padding: 35px 15px;
     justify-items: center;
     align-items: start;
-    max-width: 260px;
+    max-width: 340px;  /* increased max-width */
     margin: 0 auto;
-    margin-top: 65px;
+    margin-top: 35px;  /* reduced from 55px */
 }
 
 .app-icon {
+    width: 60px;
+    height: 80px;
     text-decoration: none;
     text-align: center;
     transition: all 0.15s ease;
@@ -84,37 +86,37 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50px;
-    height: 65px;
+    background: none;  /* removed background */
 }
 
 .app-icon img {
-    width: 35px;
-    height: 35px;
-    border-radius: 8px;
+    width: 52px;  /* slightly larger icons */
+    height: 52px;
+    border-radius: 12px;
     transition: transform 0.2s ease;
     margin-bottom: 6px;
+    object-fit: cover;
 }
 
 .app-icon span {
-    font-size: 8.5px;
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.85);
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
     width: 100%;
     text-align: center;
+    margin-top: 2px;
+    line-height: 1.2;
+    transition: color 0.2s ease;
+    transform: translateX(0);  /* Add this */
 }
 
 /* iOS-style hover effect */
 .app-icon::after {
     content: '';
     position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 25px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     opacity: 0;
@@ -177,7 +179,7 @@
 
 .app-icon:hover span {
     color: var(--accent-blue, #06b6d4);
-    transform: translateX(-50%) scale(1.05);
+    transform: translateX(0);  /* Change this */
     opacity: 1;
 }
 
@@ -189,23 +191,21 @@
 
 .view-toggle {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    bottom: 20px;
+    right: 20px;
     background: rgba(0, 0, 0, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 2px 6px;
+    border-radius: 20px;
+    padding: 12px 24px;
     color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 12px;
     backdrop-filter: blur(8px);
-    font-size: 8px;
-    width: auto;
-    height: auto;
-    min-width: 0;
-    min-height: 0;
+    font-size: 16px;
+    min-width: 160px;
+    height: 50px;
 }
 
 .view-toggle:hover {
@@ -218,8 +218,8 @@
 }
 
 .view-toggle img {
-    width: 8px;
-    height: 8px;
+    width: 24px;
+    height: 24px;
     object-fit: cover;
     border-radius: 50%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

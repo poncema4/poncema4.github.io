@@ -98,7 +98,7 @@ body {
 
 /* Main content */
 .content {
-    margin-left: 500px;
+    margin-left: 600px;  /* increased from 500px */
     padding: 50px;
     display: flex;
     justify-content: flex-start;
