@@ -3,6 +3,7 @@ class ViewToggle {
         this.button = document.querySelector('.view-toggle');
         this.isMobileView = true;
         this.phoneWrapper = document.querySelector('.phone-frame-wrapper');
+        this.content = document.querySelector('.content');
         
         this.button.addEventListener('click', () => this.toggle());
         this.updateButtonText();
@@ -12,7 +13,7 @@ class ViewToggle {
         this.isMobileView = !this.isMobileView;
         document.body.classList.toggle('desktop-view');
         
-        // Add animation class
+        // Add animations
         this.phoneWrapper.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         
         if (this.isMobileView) {
@@ -20,6 +21,10 @@ class ViewToggle {
         } else {
             this.phoneWrapper.style.transform = 'translate(-150%, -50%)';
         }
+        
+        // Ensure content is visible during transition
+        this.content.style.visibility = 'visible';
+        this.content.style.opacity = '1';
         
         this.updateButtonText();
     }

@@ -101,8 +101,105 @@ body {
     margin-left: 500px;
     padding: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    max-width: 1400px;
+    overflow: visible;
+}
+
+.intro {
+    transform-origin: left center;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.85);
+    margin-right: 100px;
+    z-index: 2;
+    width: auto;
+    min-width: 800px;
+    overflow: visible;
+}
+
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    overflow: visible;
+}
+
+.title-line {
+    font-size: 68px;
+    line-height: 1.1;
+    white-space: nowrap;
+    background: linear-gradient(270deg, var(--accent-blue) 0%, #fff 50%, var(--accent-blue) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+    display: flex;
+    align-items: center;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.plus {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 60px;
+    color: var(--accent-blue);
+    -webkit-text-fill-color: var(--accent-blue);
+}
+
+.fixed-mascot {
+    position: fixed;
+    right: 100px;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 320px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.fixed-mascot img {
+    width: 100%;
+    height: auto;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Desktop view transitions */
+.desktop-view .content {
+    margin-left: 100px;
+    justify-content: flex-start;
+}
+
+.desktop-view .intro {
+    transform: scale(1.1);
+    margin-right: 450px;
+}
+
+.desktop-view .title-line {
+    font-size: 82px;
+}
+
+/* Position adjustments for mobile/desktop views */
+.intro {
+    max-width: 600px;
+    flex: 0 0 auto;
+}
+
+.mascot-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
 }
 
 .wave {
@@ -111,12 +208,21 @@ body {
 }
 
 .title {
-    font-size: 64px;
+    font-size: 54px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: linear-gradient(45deg, #fff 30%, var(--accent-blue));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 20px 0;
+    white-space: nowrap;
+}
+
+.plus {
+    font-size: 40px;
+    margin: 0 10px;
 }
 
 .greeting {
@@ -448,8 +554,85 @@ p {
 }
 
 .experience-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding: 0 1rem;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--accent-blue);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.desktop-view .stat {
+    padding: 1.5rem;
+}
+
+.desktop-view .number {
+    font-size: 2.2rem;
+}
+
+.desktop-view .label {
+    font-size: 1rem;
+}
+
+.experience-stats {
     margin-top: 2rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
+}
+
+/* Cursor follower */
+.cursor-follower {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    backdrop-filter: blur(2px);
+}
+
+.cursor-follower.hovered {
+    transform: scale(1.5);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-blue);
+}
+
+/* Mobile view adjustments */
+@media (max-width: 1024px) {
+    .intro {
+        transform: scale(0.75);
+        min-width: 900px;
+    }
+    
+    .title-line {
+        font-size: 64px;
+    }
+    
+    .experience-stats {
+        gap: 1.5rem;
+    }
 }
