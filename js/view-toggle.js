@@ -33,13 +33,21 @@ class ViewToggle {
         const span = this.button.querySelector('span');
         const icon = this.button.querySelector('.view-icon');
         
+        this.button.classList.add('switching');
+        
         if (this.isMobileView) {
-            span.textContent = 'Website';
             icon.style.transform = 'rotate(0deg)';
-        } else {
+            icon.src = 'images/mobile.png';
             span.textContent = 'Mobile';
-            icon.style.transform = 'rotate(90deg)';
+        } else {
+            icon.style.transform = 'rotate(0deg)';
+            icon.src = 'images/website.png';
+            span.textContent = 'Website';
         }
+        
+        setTimeout(() => {
+            this.button.classList.remove('switching');
+        }, 600);
     }
 }
 

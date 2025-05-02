@@ -67,25 +67,118 @@
 .app-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px; /* adjusted for better spacing */
-    padding: 15px 10px; /* reduced padding to fit content */
+    gap: 32px 20px;
+    padding: 35px 20px;
+    justify-items: center;
+    align-items: start;
+    max-width: 260px;
+    margin: 0 auto;
+    margin-top: 65px;
 }
 
 .app-icon {
     text-decoration: none;
     text-align: center;
+    transition: all 0.15s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+    height: 65px;
 }
 
 .app-icon img {
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    margin-bottom: 8px;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+    margin-bottom: 6px;
 }
 
 .app-icon span {
-    color: white;
-    font-size: 12px;
+    font-size: 8.5px;
+    color: rgba(255, 255, 255, 0.85);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+}
+
+/* iOS-style hover effect */
+.app-icon::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: -1;
+}
+
+.app-icon:hover::after {
+    opacity: 1;
+}
+
+.app-icon:hover img {
+    transform: scale(0.92);
+}
+
+.app-icon::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 0;
+}
+
+.app-icon:hover::before {
+    opacity: 1;
+}
+
+.app-icon:hover img {
+    transform: scale(0.9);
+}
+
+.app-icon:hover span {
+    color: rgb(255, 255, 255);
+}
+
+.app-icon:active img {
+    transform: scale(0.8);
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.1) translateY(-5px); }
+}
+
+.app-icon:hover {
+    animation: iconBounce 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.app-icon:hover img {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 16px rgba(6, 182, 212, 0.25);
+    filter: brightness(1.1);
+}
+
+.app-icon:hover span {
+    color: var(--accent-blue, #06b6d4);
+    transform: translateX(-50%) scale(1.05);
+    opacity: 1;
 }
 
 /* Desktop/Mobile transitions */
@@ -96,29 +189,78 @@
 
 .view-toggle {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 2px 6px;
     color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
+    gap: 3px;
+    backdrop-filter: blur(8px);
+    font-size: 8px;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
 }
 
 .view-toggle:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+    background: rgba(0, 0, 0, 0.75);
+    transform: translateY(-1px);
 }
 
 .view-toggle .view-icon {
     transition: transform 0.5s ease;
 }
 
-.desktop-view .view-toggle .view-icon {
-    transform: rotate(90deg);
+.view-toggle img {
+    width: 8px;
+    height: 8px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-toggle span {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+}
+
+.desktop-view .view-toggle {
+    flex-direction: row-reverse;
+}
+
+.desktop-view .view-toggle img {
+    border-radius: 8px;
+    transform: translateX(0);
+}
+
+@keyframes slideText {
+    0% { opacity: 0; transform: translateX(-4px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideIcon {
+    0% { opacity: 0; transform: translateX(4px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.view-toggle.switching img {
+    animation: slideIcon 0.3s ease forwards;
+}
+
+.view-toggle.switching span {
+    animation: slideText 0.3s ease forwards;
+}
+
+.view-toggle:active img {
+    animation: slideIcon 0.4s ease-in-out;
+}
+
+.view-toggle:active span {
+    animation: slideText 0.4s ease-in-out;
 }
