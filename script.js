@@ -9,6 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // App icon hover effects
+    const appIcons = document.querySelectorAll('.app-icon');
+    appIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', () => {
+            icon.style.transform = 'translateY(-5px)';
+        });
+        icon.addEventListener('mouseleave', () => {
+            icon.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Mobile toggle
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    mobileToggle.addEventListener('click', () => {
+        document.body.classList.toggle('mobile-view');
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,4 +64,47 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred. Please try again.');
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const roles = [
+        'Software Developer',
+        'Computer Scientist',
+        'Problem Solver',
+        'Linux Enthusiast'
+    ];
+
+    const rolesElement = document.querySelector('.roles');
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+    let deletingSpeed = 50;
+
+    function typeRole() {
+        const currentRole = roles[roleIndex];
+        
+        if (isDeleting) {
+            rolesElement.textContent = currentRole.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            rolesElement.textContent = currentRole.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        if (!isDeleting && charIndex === currentRole.length) {
+            isDeleting = true;
+            setTimeout(() => typeRole(), 1500);
+            return;
+        }
+
+        if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            roleIndex = (roleIndex + 1) % roles.length;
+        }
+
+        setTimeout(typeRole, isDeleting ? deletingSpeed : typingSpeed);
+    }
+
+    typeRole();
 });

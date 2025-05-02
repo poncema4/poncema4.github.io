@@ -1,0 +1,124 @@
+.phone-frame-wrapper {
+    position: fixed;
+    left: 100px;  /* increased from 50px */
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+}
+
+.iphone-frame {
+    width: 300px;  /* increased from 280px */
+    height: 580px; /* adjusted from 560px */
+    background: #000;
+    border-radius: 45px;
+    position: relative;
+    padding: 12px; /* increased from 10px */
+    box-shadow: 
+        0 0 0 2px rgba(255, 255, 255, 0.1),
+        0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background: #000;
+    border-radius: 0 0 20px 20px;
+    z-index: 2;
+}
+
+.screen {
+    background: linear-gradient(145deg, #0a192f 0%, #112240 100%);
+    height: calc(100% - 40px); /* adjusted to match new padding */
+    border-radius: 35px;
+    padding: 20px 15px;
+    width: calc(100% - 30px); /* ensure screen fits inside frame */
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(2px 2px at 40px 60px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 20px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 30px 100px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: stars 8s linear infinite;
+    opacity: 0.2;
+}
+
+@keyframes stars {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-200px); }
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px; /* adjusted for better spacing */
+    padding: 15px 10px; /* reduced padding to fit content */
+}
+
+.app-icon {
+    text-decoration: none;
+    text-align: center;
+}
+
+.app-icon img {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+}
+
+.app-icon span {
+    color: white;
+    font-size: 12px;
+}
+
+/* Desktop/Mobile transitions */
+.desktop-view .phone-frame-wrapper {
+    transform: translate(-150%, -50%);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.view-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.view-toggle .view-icon {
+    transition: transform 0.5s ease;
+}
+
+.desktop-view .view-toggle .view-icon {
+    transform: rotate(90deg);
+}

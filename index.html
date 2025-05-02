@@ -3,52 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marco Ponce</title>
+    <title>Your Name - Developer Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/iphone-frame.css">
 </head>
 <body>
-    <header class="main-header">
-        <div class="container">
-            <div class="left-column">
-                <div class="profile">
-                    <img src="images/marco.jpg" alt="Marco Ponce" class="profile-image">
-                    <h1>Marco Ponce</h1>
-                    <p>Computer Scientist</p>
-                    <ul class="contact-info">
-                        <li>
-                            <img src="images/location.png" alt="Location Icon" class="icon">
-                            Seton Hall University
-                        </li>
-                        <li>
-                            <img src="images/website.png" alt="Website Icon" class="icon">
-                            <a href="https://poncema4.github.io/" target="_blank">Website</a>
-                        </li>
-                        <li>
-                            <img src="images/github.png" alt="GitHub Icon" class="icon">
-                            <a href="https://github.com/poncema4" target="_blank">GitHub</a>
-                        </li>
-                        <li>
-                            <img src="images/email.png" alt="Email Icon" class="icon">
-                            <a href="mailto:marcpon8@gmail.com">Email</a>
-                        </li>
-                    </ul>
+    <div class="stars"></div>
+    
+    <div class="phone-frame-wrapper">
+        <div class="iphone-frame">
+            <div class="notch"></div>
+            <div class="screen">
+                <div class="app-grid">
+                    <a href="#about" class="app-icon">
+                        <img src="images/icons/about.png" alt="About">
+                        <span>About</span>
+                    </a>
+                    <a href="#skills" class="app-icon">
+                        <img src="images/icons/skills.png" alt="Skills">
+                        <span>Skills</span>
+                    </a>
+                    <a href="#projects" class="app-icon">
+                        <img src="images/icons/projects.png" alt="Projects">
+                        <span>Projects</span>
+                    </a>
+                    <a href="#tools" class="app-icon">
+                        <img src="images/icons/tools.png" alt="Tools">
+                        <span>Tools</span>
+                    </a>
+                    <a href="https://github.com/yourusername" class="app-icon">
+                        <img src="images/icons/github.png" alt="GitHub">
+                        <span>GitHub</span>
+                    </a>
+                    <a href="#experience" class="app-icon">
+                        <img src="images/icons/experience.png" alt="Experience">
+                        <span>Experience</span>
+                    </a>
+                    <a href="#playstore" class="app-icon">
+                        <img src="images/icons/playstore.png" alt="Play Store">
+                        <span>Play Store</span>
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" class="app-icon">
+                        <img src="images/icons/linkedin.png" alt="LinkedIn">
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#social" class="app-icon">
+                        <img src="images/icons/whatsapp.png" alt="WhatsApp">
+                        <span>WhatsApp</span>
+                    </a>
                 </div>
-            </div>
-            <div class="right-column">
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
-                <section class="content">
-                    <h2>Welcome to My Website</h2>
-                    <p>This is the homepage. Click on the links above to explore more about me, my projects, and how to contact me.</p>
-                </section>
+                <!-- Removed phone-footer div -->
             </div>
         </div>
-    </header>
+    </div>
+
+    <main class="content">
+        <div class="intro">
+            <h1>I'm Marco</h1>
+            <div class="title">
+                Software Developer <span class="plus">+</span>
+                <br>
+                UI/UX Designer
+            </div>
+            
+            <p class="tagline">
+                Welcome to my digital playground!
+                <br>
+                Software developer by day, UI/UX developer by night.
+            </p>
+
+            <div class="contact-section">
+                <a href="#contact" class="contact-btn">Contact Me</a>
+            </div>
+
+            <div class="experience-stats">
+                <div class="stat">
+                    <span class="number">2.5+</span>
+                    <span class="label">Years of Experience</span>
+                </div>
+                <div class="stat">
+                    <span class="number">10+</span>
+                    <span class="label">Projects Completed</span>
+                </div>
+                <div class="stat">
+                    <span class="number">5+</span>
+                    <span class="label">Happy Clients</span>
+                </div>
+                <div class="stat">
+                    <span class="number">10+</span>
+                    <span class="label">UI/UX Designs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mascot-wrapper">
+            <img src="images/linux-penguin.png" alt="Linux Mascot" class="mascot">
+        </div>
+    </main>
+
+    <button class="view-toggle">
+        <img src="images/icons/mobile.png" alt="Toggle view" class="view-icon">
+        <span>Website</span>
+    </button>
+
+    <script src="js/view-toggle.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
