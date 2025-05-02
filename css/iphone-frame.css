@@ -55,7 +55,7 @@
     height: 30px;
     background: #000;
     border-radius: 0 0 20px 20px;
-    z-index: 2;
+    z-index: 9999; /* increased z-index to stay on top */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,16 +338,15 @@
 .game-container {
     display: none;
     position: absolute;
-    top: 45%;  /* adjusted from 50% */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: calc(100% - 40px); /* wider container */
-    height: calc(100% - 120px); /* taller container */
-    background: #000;
+    top: 0;
+    left: 0;
+    width: calc(110% - 30px);
+    height: calc(110% - 40px);
+    background: #000000;
     z-index: 1000;
-    border-radius: 20px;
+    border-radius: 35px;
     overflow: hidden;
-    margin-top: 40px;
+    margin: 0 auto;
 }
 
 .camera-cutout {
@@ -358,15 +357,15 @@
     height: 30px;
     background: #000;
     z-index: 1002;
-    border-radius: 25px 25px 0 0;
+    border-radius: 35px 35px 0 0;
 }
 
 .game-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px; /* reduced padding */
-    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
@@ -419,23 +418,24 @@
 .game-board {
     display: none;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px; /* bigger gap */
-    padding: 15px; /* more padding */
-    margin-top: 40px; /* more space from top */
-    width: 90%; /* wider board */
-    max-width: 280px; /* larger max width */
+    gap: 15px;
+    padding: 20px;
+    margin-top: 60px;
+    width: 50%;
+    max-width: 350px;
     margin-left: auto;
     margin-right: auto;
+    transform: translateX(-5%);
 }
 
 .cell {
     aspect-ratio: 1;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px; /* larger radius */
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 32px; /* larger font */
+    font-size: 26x; /* larger font */
     color: white !important; /* force white color */
     cursor: pointer;
     transition: transform 0.2s;
@@ -444,6 +444,8 @@
 /* Remove color overrides for X and O */
 .cell.x, .cell.o {
     color: white !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .cell:hover {
