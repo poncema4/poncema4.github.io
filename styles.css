@@ -204,13 +204,13 @@ body {
 }
 
 .mascot-wrapper {
-    position: relative; /* Change from relative to fixed */
-    right: 120px;    /* Adjust position */
-    top: 20%;       /* Center vertically */
+    position: relative;
+    right: 120px;
+    top: 20%;
     transform: translateY(-50%);
     z-index: 2;
     pointer-events: none;
-    width: 300px;   /* Set fixed width */
+    width: 300px;
 }
 
 .wave {
