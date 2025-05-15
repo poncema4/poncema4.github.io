@@ -476,3 +476,52 @@
     margin-top: 10px;
     font-size: 14px; /* smaller status text */
 }
+
+@media (max-width: 992px) {
+    .iphone-frame {
+        width: 340px;
+        height: 640px;
+    }
+    
+    .app-grid {
+        gap: 20px 15px;
+        padding: 25px 10px;
+    }
+    
+    .app-icon img {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .iphone-frame {
+        width: 320px;
+        height: 600px;
+    }
+    
+    .app-grid {
+        gap: 15px 10px;
+        padding: 20px 8px;
+    }
+    
+    .app-icon img {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .app-icon span {
+        font-size: 9px;
+    }
+}
+
+/* Fix for shorter screens */
+@media (max-height: 700px) {
+    .iphone-frame {
+        height: 560px;
+    }
+    
+    .app-grid {
+        padding-top: 15px;
+    }
+}
