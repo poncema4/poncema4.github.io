@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Portfolio Dark Theme */
+    --background: 213 31% 11%;
+    --foreground: 210 40% 98%;
+    
+    --card: 217 19% 27%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 213 31% 11%;
+    --popover-foreground: 210 40% 98%;
+    
+    /* Cyan primary color for portfolio */
+    --primary: 188 78% 41%;
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 217 19% 27%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 188 78% 41%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 188 78% 41%;
+    
+    --radius: 0.5rem;
+    
+    /* Portfolio specific colors */
+    --portfolio-bg: 213 31% 11%;
+    --portfolio-card: 217 19% 27%;
+    --portfolio-text: 210 40% 98%;
+    --portfolio-accent: 188 78% 41%;
+    --portfolio-muted: 215 20.2% 65.1%;
+  }
+}
+
+/* Animated background */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(1deg); }
+  66% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animated-bg {
+  background: linear-gradient(-45deg, 
+    hsl(var(--background)), 
+    hsl(217 19% 15%), 
+    hsl(213 31% 13%), 
+    hsl(217 19% 17%)
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.floating-shapes::before,
+.floating-shapes::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: hsl(var(--primary) / 0.1);
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-shapes::before {
+  width: 80px;
+  height: 80px;
+  top: 20%;
+  left: 10%;
+  animation-delay: -2s;
+}
+
+.floating-shapes::after {
+  width: 120px;
+  height: 120px;
+  top: 60%;
+  right: 10%;
+  animation-delay: -4s;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
