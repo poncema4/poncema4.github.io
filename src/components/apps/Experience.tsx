@@ -1,42 +1,53 @@
 export const Experience = () => {
   const experiences = [
     {
-      title: "Senior Software Engineer",
-      company: "Tech Solutions Inc.",
-      period: "2022 - Present",
-      description: "Leading frontend development projects using React and TypeScript. Collaborated with design teams to implement pixel-perfect UI components.",
+      title: "AI Engineer & Software Developer Intern",
+      company: "Reality AI Lab",
+      period: "May 2025 – Present",
+      description: "Building LLM-powered educational tools and backend services using Python, LangChain, and Google Cloud Run.",
       achievements: [
-        "Increased application performance by 40%",
-        "Led a team of 4 junior developers",
-        "Implemented CI/CD pipelines"
+        "Developed 'Marvel AI' – an AI teaching assistant to improve student query handling",
+        "Integrated LangChain, Redis, and cloud-native services for real-time LLM apps",
+        "Collaborated cross-functionally to scale tools for research and production"
       ]
     },
     {
-      title: "Frontend Developer",
-      company: "Digital Agency",
-      period: "2021 - 2022",
-      description: "Developed responsive web applications for various clients. Specialized in React ecosystem and modern CSS frameworks.",
+      title: "Software Engineer",
+      company: "Nobile Tech",
+      period: "Aug 2022 – Present",
+      description: "Designed scalable infrastructure for game servers and launched web platforms for high-profile clients.",
       achievements: [
-        "Delivered 15+ client projects",
-        "Reduced page load times by 60%",
-        "Mentored 2 intern developers"
+        "Deployed 300+ custom Java-based game servers serving 2,500+ concurrent users",
+        "Launched 20+ client websites and e-commerce platforms using XenForo and SEO strategy",
+        "Secured partnerships with multi-million dollar brands and influencers (27M+ combined reach)"
       ]
     },
     {
-      title: "UI/UX Designer",
-      company: "Startup Hub",
-      period: "2020 - 2021",
-      description: "Designed user interfaces and experiences for web and mobile applications. Conducted user research and usability testing.",
+      title: "Research Assistant",
+      company: "Seton Hall University",
+      period: "Sept 2024 – May 2025",
+      description: "Worked with Prof. Jason Hemann on logic programming and algorithmic research using Racket.",
       achievements: [
-        "Improved user satisfaction by 35%",
-        "Created design system for 10+ products",
-        "Conducted 50+ user interviews"
+        "Explored graph coloring via miniKanren and faster-miniKanren",
+        "Implemented and benchmarked Greedy and Backtracking algorithms",
+        "Contributed to academic tools in logic and functional programming"
+      ]
+    },
+    {
+      title: "Computer Science Tutor / TA",
+      company: "Seton Hall University",
+      period: "Aug 2024 – May 2025",
+      description: "Supported Intro to Programming I & II courses focused on Racket and functional programming.",
+      achievements: [
+        "Helped students improve average grades by 13% across sections",
+        "Led workshops and office hours for debugging, recursion, and logic design",
+        "Worked closely with the MLL program to reinforce fundamental CS concepts"
       ]
     }
   ];
 
   return (
-    <div className="p-6 text-white">
+    <div className="p-6 text-white min-h-full">
       <h2 className="text-2xl font-bold mb-6 text-primary">Experience</h2>
       <div className="space-y-6">
         {experiences.map((exp, index) => (

@@ -55,7 +55,7 @@ export const AppContent = ({ appId, onBack }: AppContentProps) => {
       </div>
 
       {/* App Content */}
-      <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100% - 60px)' }}>
+      <div className="h-0 flex-1 overflow-y-auto pb-12" style={{ height: 'calc(100% - 130px)' }}>
         {renderApp()}
       </div>
     </div>

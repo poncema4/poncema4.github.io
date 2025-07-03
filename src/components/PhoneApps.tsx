@@ -13,14 +13,16 @@ export const PhoneApps = ({ apps, onAppClick }: PhoneAppsProps) => {
           <button
             key={app.id}
             onClick={() => onAppClick(app)}
+            title={app.name}
             className="flex flex-col items-center space-y-2 group transition-transform hover:scale-105"
           >
             <div className="w-16 h-16 bg-gray-800 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-gray-700 transition-colors">
-              {app.icon}
+              {app.iconType === "img" ? (
+                <img src={app.icon} alt={app.name} className="w-8 h-8 mx-auto" />
+              ) : (
+                <span className="text-3xl">{app.icon}</span>
+              )}
             </div>
-            <span className="text-white text-xs text-center leading-tight">
-              {app.name}
-            </span>
           </button>
         ))}
       </div>

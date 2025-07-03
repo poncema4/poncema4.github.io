@@ -2,24 +2,24 @@ export const Skills = () => {
   const skillCategories = [
     {
       title: "Frontend",
-      skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "HTML5", "CSS3"]
+      skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML5", "CSS3"]
     },
     {
       title: "Backend",
-      skills: ["Node.js", "Express", "Python", "PostgreSQL", "MongoDB", "REST APIs"]
+      skills: ["Python", "Java", "Assembly", "Racket"]
     },
     {
-      title: "Design",
-      skills: ["Figma", "Adobe XD", "Photoshop", "UI/UX Design", "Prototyping", "Wireframing"]
+      title: "AI / ML",
+      skills: ["LangChain", "PyTorch", "Pandas", "NumPy", "FastAPI", "Django"]
     },
     {
-      title: "Tools",
-      skills: ["Git", "Docker", "VS Code", "Vercel", "AWS", "Linux"]
-    }
+      title: "Databases",
+      skills: ["PostgreSQL", "MongoDB", "Supabase", "Redis", "SQLite3"]
+    },
   ];
 
   return (
-    <div className="p-6 text-white">
+    <div className="p-6 text-white min-h-full">
       <h2 className="text-2xl font-bold mb-6 text-primary">Skills & Technologies</h2>
       <div className="space-y-6">
         {skillCategories.map((category, index) => (

@@ -13,10 +13,10 @@ export const Portfolio = () => {
   const isMobile = useIsMobile();
 
   const stats = [
-    { value: "2.5+", label: "Years of Experience" },
-    { value: "10+", label: "Projects Completed" },
-    { value: "5+", label: "Happy Clients" },
-    { value: "10+", label: "UI/UX Designs" }
+    { value: "6+", label: "Years of Experience" },
+    { value: "25+", label: "Projects Completed" },
+    { value: "15+", label: "Team Collaborations" },
+    { value: "5+", label: "Production Deployments" }
   ];
 
   const handleContactClick = () => {
@@ -44,10 +44,10 @@ export const Portfolio = () => {
               <span className="text-primary">Software Engineer</span>{" "}
               <span className="text-muted-foreground">+</span>
             </h1>
-            <h2 className="text-4xl font-bold text-primary mb-4">UI/UX Designer</h2>
+            <h2 className="text-4xl font-bold text-primary mb-4">ML/AI Engineer</h2>
             <div className="text-muted-foreground mb-6">
               <p>Welcome to my portfolio website!</p>
-              <p>Software Engineer by day, UI/UX developer by night.</p>
+              <p>To see the full version of my portfolio, go on Desktop!</p>
             </div>
             <Button onClick={handleContactClick} className="mb-8">
               Contact Me
@@ -81,10 +81,10 @@ export const Portfolio = () => {
                   <span className="text-primary">Software Engineer</span>{" "}
                   <span className="text-muted-foreground">+</span>
                 </h1>
-                <h2 className="text-6xl font-bold text-primary mb-6">UI/UX Designer</h2>
+                <h2 className="text-6xl font-bold text-primary mb-6">ML/AI Engineer</h2>
                 <div className="text-muted-foreground mb-8 max-w-lg mx-auto">
                   <p>Welcome to my portfolio website!</p>
-                  <p>Software Engineer by day, UI/UX developer by night.</p>
+                  <p>CS @ Seton Hall University</p>
                 </div>
                 <Button onClick={handleContactClick} size="lg">
                   Contact Me

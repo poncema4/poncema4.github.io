@@ -38,7 +38,6 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
 
       if (emailError) {
         console.warn('Email sending failed:', emailError);
-        // Still show success since the form was saved
       }
 
       toast({
