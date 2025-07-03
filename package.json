@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://github.com/poncema4/poncema4.github.io",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
