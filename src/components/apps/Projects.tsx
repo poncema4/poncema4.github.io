@@ -1,32 +1,53 @@
 export const Projects = () => {
   const projects = [
     {
+      title: "Marcode-AI",
+      description: "A SaaS platform that enables users to instantly generate fully customizable websites from a single text prompt using AI-powered agents.",
+      tech: ["TypeScript", "React", "Next.js", "PostgreSQL", "OpenAI API", "Docker", "Vercel"],
+      status: "In Progress",
+      link: "https://github.com/poncema4/Marcode-AI"
+    },
+    {
       title: "TenantE E-commerce Platform",
       description: "Multi-tenant e-commerce platform for digital products, supporting user storefronts and vendor tools.",
-      tech: ["TypeScript", "React", "Next.js", "MongoDB", "Tailwind CSS"],
-      status: "In Progress",
+      tech: ["TypeScript", "React", "Next.js", "MongoDB", "Tailwind CSS", "Vercel"],
+      status: "Completed",
       link: "https://github.com/poncema4/multitenant-ecommerce"
     },
     {
       title: "Deepfake Image Detector",
-      description: "AI-powered tool to detect deepfake images using metadata analysis and ML models.",
-      tech: ["Javascript", "CSS", "Jupyter Notebook", "Python", "Docker", "Machine Learning"],
+      description: "AI-powered tool to detect deepfake images using metadata analysis and a custom-trained CNN model.",
+      tech: ["Python", "JavaScript", "Jupyter Notebook", "TensorFlow", "PyTorch"],
       status: "Completed",
       link: "https://github.com/poncema4/Deepfake"
     },
     {
       title: "GoPirate",
-      description: "Multi-player game with a chat feature included where players battle and fight till the last man wins.",
-      tech: ["Python", "SQLite3"],
+      description: "Multi-player game with a chat feature and chat bot included where players battle and fight till the last man wins.",
+      tech: ["Python", "SQLite", "Tkinter"],
       status: "Completed",
       link: "https://github.com/poncema4/GoPirate"
     },
     {
+      title: "Fraud Detection System",
+      description: "Built a streamlit-based web app for real-time user input, risk prediction, and dynamic fraud classification with visual feedback.",
+      tech: ["Python", "Streamlit", "Jupyter Notebook","Scikit-learn", "Pandas", "NumPy"],
+      status: "Completed",
+      link: "https://github.com/poncema4/Fraud-Detection-System"
+    },
+    {
       title: "Puzzle-API",
       description: "Generate a puzzle image of the user's input description with their desired dimensions and having to solve the scrambled puzzle.",
-      tech: ["Java", "OpenAI API", "Okio", "Okhttp"],
+      tech: ["Java", "Microsoft Azure", "Okio", "OkHttp"],
       status: "Completed",
       link: "https://github.com/poncema4/Puzzle-API"
+    },
+    {
+      title: "Canvas-API",
+      description: " Automated interaction with Canvas LMS and OpenAI’s API to generate responses based on document and text content posted by professors on Canvas.",
+      tech: ["Java", "Canvas API", "OpenAI API"],
+      status: "Completed",
+      link: "https://github.com/poncema4/OpenAI-API"
     }
   ];
 

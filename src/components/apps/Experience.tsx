@@ -6,9 +6,9 @@ export const Experience = () => {
       period: "May 2025 – Present",
       description: "Building LLM-powered educational tools and backend services using Python, LangChain, and Google Cloud Run.",
       achievements: [
-        "Developed 'Marvel AI' – an AI teaching assistant to improve student query handling",
-        "Integrated LangChain, Redis, and cloud-native services for real-time LLM apps",
-        "Collaborated cross-functionally to scale tools for research and production"
+        "Contributed to Marvel AI, an AI-powered teaching assistant LLM to improve student query understanding and response quality",
+        "Built and deployed tools using LangChain, Redis, and Google Cloud Run to create scalable, real-time LLM-powered applications",
+        "Wrote and maintained unit tests for core API logic and data pipelines, ensuring consistent LLM output and reduced downtime"
       ]
     },
     {
@@ -18,8 +18,9 @@ export const Experience = () => {
       description: "Designed scalable infrastructure for game servers and launched web platforms for high-profile clients.",
       achievements: [
         "Deployed 300+ custom Java-based game servers serving 2,500+ concurrent users",
-        "Launched 20+ client websites and e-commerce platforms using XenForo and SEO strategy",
-        "Secured partnerships with multi-million dollar brands and influencers (27M+ combined reach)"
+        "Launched 20+ client websites and e-commerce platforms using XenForo and SEO strategy, increassing client traffic by 400%",
+        "Automated monitoring and debugging tools to handle live server errors, reducing manual intervention by over 60%",
+        "Led client consultations, turning business needs into full-stack systems adopted by top-tier influencers and million-dollar brands"
       ]
     },
     {
@@ -28,9 +29,9 @@ export const Experience = () => {
       period: "Sept 2024 – May 2025",
       description: "Worked with Prof. Jason Hemann on logic programming and algorithmic research using Racket.",
       achievements: [
-        "Explored graph coloring via miniKanren and faster-miniKanren",
-        "Implemented and benchmarked Greedy and Backtracking algorithms",
-        "Contributed to academic tools in logic and functional programming"
+        "Implemented and evaluated graph coloring algorithms using backtracking and greedy strategies",
+        "Designed unit tests and edge case generators to ensure logic correctness across graph constraints",
+        "Debugged recursive rule failures and non-terminating cases, improving execution efficiency and output reliability"
       ]
     },
     {
@@ -39,9 +40,9 @@ export const Experience = () => {
       period: "Aug 2024 – May 2025",
       description: "Supported Intro to Programming I & II courses focused on Racket and functional programming.",
       achievements: [
-        "Helped students improve average grades by 13% across sections",
-        "Led workshops and office hours for debugging, recursion, and logic design",
-        "Worked closely with the MLL program to reinforce fundamental CS concepts"
+        "Teacher Assistant for Intro to Programming I & II, guiding students through recursion, functional and distributive programming using Racket",
+        "Created practice problems and debugging walkthroughs to help students better understand logic tracing and error isolation",
+        "Held weekly review sessions covering test-driven design and functional correctness, boosting class average by 13% overall"
       ]
     }
   ];
