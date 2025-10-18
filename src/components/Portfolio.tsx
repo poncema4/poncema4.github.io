@@ -290,7 +290,7 @@ export const Portfolio = () => {
       role: "Software Engineer",
       company: "Nobile Tech",
       location: "New York City, NY",
-      period: "Aug 2022 - Sep 2025",
+      period: "Aug 2022 - Aug 2025",
       type: "Part-time",
       icon: Server,
       color: "text-green-400",
