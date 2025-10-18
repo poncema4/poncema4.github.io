@@ -618,6 +618,13 @@ export const Portfolio = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Save current state before starting to draw (for undo functionality)
+    if (drawingHistory.length === 0) {
+      // Initialize with blank canvas
+      setDrawingHistory([""]);
+      setHistoryIndex(0);
+    }
+
     setIsDrawing(true);
     ctx.beginPath();
     ctx.moveTo(coords.x, coords.y);
@@ -654,7 +661,7 @@ export const Portfolio = () => {
     const dataUrl = canvas.toDataURL();
     setDrawing(dataUrl);
     
-    // Add to history for undo/redo
+    // Save this stroke to history (each stroke is a new history state)
     const newHistory = drawingHistory.slice(0, historyIndex + 1);
     newHistory.push(dataUrl);
     setDrawingHistory(newHistory);
@@ -670,6 +677,7 @@ export const Portfolio = () => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     setDrawing("");
+    // Reset history to just the blank state
     setDrawingHistory([""]);
     setHistoryIndex(0);
   };
@@ -685,15 +693,20 @@ export const Portfolio = () => {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const img = new Image();
-      img.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (drawingHistory[newIndex]) {
+      // Clear canvas first
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const historyState = drawingHistory[newIndex];
+      setDrawing(historyState);
+      
+      // If there's a drawing to restore, load it
+      if (historyState && historyState !== "") {
+        const img = new Image();
+        img.onload = () => {
           ctx.drawImage(img, 0, 0);
-        }
-        setDrawing(drawingHistory[newIndex]);
-      };
-      img.src = drawingHistory[newIndex];
+        };
+        img.src = historyState;
+      }
     }
   };
 
@@ -708,14 +721,33 @@ export const Portfolio = () => {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const img = new Image();
-      img.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
-        setDrawing(drawingHistory[newIndex]);
-      };
-      img.src = drawingHistory[newIndex];
+      // Clear canvas first
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const historyState = drawingHistory[newIndex];
+      setDrawing(historyState);
+      
+      // If there's a drawing to restore, load it
+      if (historyState && historyState !== "") {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = historyState;
+      }
     }
+  };
+
+  // Initialize canvas when opening note form
+  const openNoteForm = () => {
+    setShowNoteForm(true);
+    // Reset drawing state
+    setDrawing("");
+    setDrawingHistory([""]);
+    setHistoryIndex(0);
+    setNoteName("");
+    setNoteMessage("");
+    setNoteError("");
   };
 
   // Admin functions
@@ -1387,7 +1419,7 @@ export const Portfolio = () => {
                   transition={{ delay: 0.4 }}
                 >
                   <Button
-                    onClick={() => setShowNoteForm(true)}
+                    onClick={openNoteForm}
                     className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-5 md:px-6 py-2 text-sm md:text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     Write a Note
