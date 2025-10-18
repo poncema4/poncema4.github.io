@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "../integrations/supabase/client";
 
 // Terminal Animation Component
 const TerminalAnimation = () => {
@@ -435,18 +436,70 @@ export const Portfolio = () => {
     { value: "60%", label: "Speed Boost", sublabel: "Deployment Time", icon: Brain }
   ];
 
-  // Load notes from localStorage
+  // Load notes from Supabase
   useEffect(() => {
-    const savedNotes = localStorage.getItem('leaveNotes');
-    if (savedNotes) {
-      setNotes(JSON.parse(savedNotes));
-    }
+    const loadNotes = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('notes')
+          .select('*')
+          .order('timestamp', { ascending: false });
+        
+        if (error) {
+          console.error('Error loading notes:', error);
+          // Fallback to localStorage for existing notes
+          const savedNotes = localStorage.getItem('leaveNotes');
+          if (savedNotes) {
+            setNotes(JSON.parse(savedNotes));
+          }
+        } else {
+          setNotes(data || []);
+        }
+      } catch (err) {
+        console.error('Error loading notes:', err);
+        // Fallback to localStorage
+        const savedNotes = localStorage.getItem('leaveNotes');
+        if (savedNotes) {
+          setNotes(JSON.parse(savedNotes));
+        }
+      }
+    };
+    
+    loadNotes();
   }, []);
 
-  // Save notes to localStorage
-  useEffect(() => {
-    localStorage.setItem('leaveNotes', JSON.stringify(notes));
-  }, [notes]);
+  // Save note to Supabase
+  const saveNoteToDatabase = async (note: Note) => {
+    try {
+      const { error } = await supabase
+        .from('notes')
+        .insert([{
+          id: note.id,
+          name: note.name,
+          message: note.message,
+          drawing: note.drawing,
+          x: note.x,
+          y: note.y,
+          rotation: note.rotation,
+          color: note.color,
+          timestamp: note.timestamp
+        }]);
+      
+      if (error) {
+        console.error('Error saving note to database:', error);
+        // Fallback to localStorage
+        const currentNotes = JSON.parse(localStorage.getItem('leaveNotes') || '[]');
+        currentNotes.push(note);
+        localStorage.setItem('leaveNotes', JSON.stringify(currentNotes));
+      }
+    } catch (err) {
+      console.error('Error saving note:', err);
+      // Fallback to localStorage
+      const currentNotes = JSON.parse(localStorage.getItem('leaveNotes') || '[]');
+      currentNotes.push(note);
+      localStorage.setItem('leaveNotes', JSON.stringify(currentNotes));
+    }
+  };
 
   const handleContactClick = () => {
     setShowContactForm(true);
@@ -477,7 +530,7 @@ export const Portfolio = () => {
   }, [heroInView, skillsInView, experienceInView, projectsInView, notesInView]);
 
   // Note handling functions
-  const handleSubmitNote = () => {
+  const handleSubmitNote = async () => {
     setNoteError("");
     
     if (!noteName.trim() || !noteMessage.trim()) {
@@ -507,7 +560,11 @@ export const Portfolio = () => {
       timestamp: Date.now()
     };
 
+    // Add to local state immediately for instant feedback
     setNotes(prev => [...prev, newNote]);
+    
+    // Save to database
+    await saveNoteToDatabase(newNote);
     
     // Reset form
     setNoteName("");
@@ -644,9 +701,24 @@ export const Portfolio = () => {
     }
   };
 
-  const handleDeleteNote = (noteId: string) => {
+  const handleDeleteNote = async (noteId: string) => {
     if (adminMode) {
+      // Remove from local state immediately
       setNotes(prev => prev.filter(note => note.id !== noteId));
+      
+      // Delete from database
+      try {
+        const { error } = await supabase
+          .from('notes')
+          .delete()
+          .eq('id', noteId);
+        
+        if (error) {
+          console.error('Error deleting note from database:', error);
+        }
+      } catch (err) {
+        console.error('Error deleting note:', err);
+      }
     }
   };
 
@@ -701,24 +773,6 @@ export const Portfolio = () => {
         ))}
       </div>
 
-      {/* Floating Moon */}
-      <motion.div
-        className="fixed top-16 right-4 md:right-16 w-16 h-16 md:w-24 md:h-24 bg-gray-100 rounded-full shadow-2xl z-10"
-        animate={{
-          y: [0, -10, 0],
-          rotate: [0, 5, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{
-          background: "radial-gradient(circle at 30% 30%, #f8fafc, #e2e8f0)",
-          boxShadow: "0 0 40px rgba(248, 250, 252, 0.6)",
-        }}
-      />
-      
       {/* Navigation */}
       <motion.nav 
         initial={{ y: -100 }}

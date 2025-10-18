@@ -33,6 +33,45 @@ export type Database = {
         }
         Relationships: []
       }
+      notes: {
+        Row: {
+          id: string
+          name: string
+          message: string
+          drawing: string
+          x: number
+          y: number
+          rotation: number
+          color: string
+          timestamp: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          message: string
+          drawing: string
+          x: number
+          y: number
+          rotation: number
+          color: string
+          timestamp: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          message?: string
+          drawing?: string
+          x?: number
+          y?: number
+          rotation?: number
+          color?: string
+          timestamp?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
