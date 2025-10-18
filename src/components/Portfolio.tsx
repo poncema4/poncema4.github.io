@@ -1307,7 +1307,7 @@ export const Portfolio = () => {
                     onClick={() => setShowNoteForm(true)}
                     className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-5 md:px-6 py-2 text-sm md:text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    📝 Write a Note
+                    Write a Note
                   </Button>
                 </motion.div>
               )}
@@ -1433,7 +1433,7 @@ export const Portfolio = () => {
               className="bg-white rounded-2xl p-4 md:p-6 w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-800">📝 Create Note</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800">Create Note</h2>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1447,7 +1447,7 @@ export const Portfolio = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name (max 45 chars)
+                    Name
                   </label>
                   <Input
                     value={noteName}
@@ -1462,7 +1462,7 @@ export const Portfolio = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Message (max 45 chars)
+                    Message
                   </label>
                   <Textarea
                     value={noteMessage}
@@ -1477,7 +1477,7 @@ export const Portfolio = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Draw something (optional)
+                    Draw something
                   </label>
                   
                   {/* Drawing Tools */}
