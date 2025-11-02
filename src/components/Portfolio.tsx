@@ -323,7 +323,7 @@ export const Portfolio = () => {
       role: "Teaching Assistant",
       company: "Seton Hall University",
       location: "South Orange, NJ",
-      period: "Aug 2024 - May 2025",
+      period: "Aug 2024 - December 2024",
       type: "Part-time",
       icon: GraduationCap,
       color: "text-yellow-400",
