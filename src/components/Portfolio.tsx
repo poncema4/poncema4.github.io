@@ -272,7 +272,7 @@ export const Portfolio = () => {
   const experience = [
     {
       role: "Software Engineer",
-      company: "NextStep",
+      company: "PirateShield",
       location: "Newark, NJ",
       period: "Sep 2025 - Present",
       type: "Full-time",
@@ -281,9 +281,9 @@ export const Portfolio = () => {
       bgColor: "bg-blue-500/10",
       tech: ["Python", "C", "C++", "Docker", "Git"],
       achievements: [
-        "Implemented IoT anomaly detection algorithms, boosting attack detection accuracy by 45% across false-data threats",
-        "Optimized Zigbee device monitoring to reduce false positives by 30%, delivering faster and clearer real-time alerts for users",
-        "Built a plug-and-play prototype that protected 10+ smart devices, showing scalable security for homes and microgrids"
+        "Implemented Zero-Trust anomaly detection using Python and C++, boosting IoT response speed by 45% across networks",
+        "Optimized multi-threaded event processing with Docker, cutting CPU usage 30% and enhancing real-time data throughput",
+        "Created scalable plug-and-play security APIs, accelerating K–12 deployment time by 60% and assisting 10+ organizations"
       ]
     },
     {
@@ -298,9 +298,9 @@ export const Portfolio = () => {
       tech: ["Java", "SQL", "Redis", "Docker", "Kubernetes", "Git"],
       achievements: [
         "Designed and launched 300+ custom game servers in Java, scaling to support over 2,500+ concurrent users",
-        "Introduced automated monitoring and debugging tools that decreased server downtime by 60% enhancing system reliability",
+        "Introduced automated monitoring and debugging tools, decreasing server downtime by 60% and advancing overall stability",
         "Amplified client traffic by 400% by launching 20+ web platforms through targeted SEO and social media strategies",
-        "Consulted clients to transform business needs into scalable platforms used by influencers and million-dollar brands"
+        "Collaborated with clients to transform business needs into scalable platforms for influencers and million-dollar brands"
       ]
     },
     {
@@ -314,8 +314,8 @@ export const Portfolio = () => {
       bgColor: "bg-purple-500/10",
       tech: ["React.js", "Next.js", "JavaScript", "Tailwind CSS", "PostgreSQL"],
       achievements: [
-        "Automated educators' workflows using React.js and Next.js, reducing manual tasks by 15% and boosting productivity",
-        "Built scalable real-time APIs using LangChain and Redis, supporting 1000+ concurrent users while ensuring low latency",
+        "Automated educators’ workflows using React.js and Next.js, reducing manual tasks by 15% and increasing productivity",
+        "Built scalable real-time APIs with LangChain and Redis, managing 1000+ concurrent users while ensuring low latency",
         "Accelerated deployment speed by 40% through CI/CD pipelines with 85%+ test coverage, minimizing production errors"
       ]
     },
@@ -331,7 +331,7 @@ export const Portfolio = () => {
       tech: ["Racket", "Python", "Data Structures"],
       achievements: [
         "Led review sessions and tutored 100+ students in Racket, Python, and Data Structures, raising average grade by 15%",
-        "Graded assignments, held office hours, and supported professors in managing coursework and academic resources"
+        "Facilitated learning during office hours by guiding students toward solutions and optimizations, improving overall outcomes"
       ]
     },
     {
@@ -363,9 +363,9 @@ export const Portfolio = () => {
       description: "Private AI platform for agents, assistants and enterprise search. Built-in Agent Builder, Deep research, Document analysis, Multi-model support, and API connectivity for agents.",
       tech: ["Python", "TypeScript", "LangChain", "Docker", "Shell", "PowerShell"],
       highlights: [
-        "Enhanced DocsGPT used by 20,000+ users, enhancing AI prompt logic and RAG pipeline to improve accuracy by 20%",
-        "Resolved fixes for Docker deployments via Shell and PowerShell, reducing setup errors by 60% across environments",
-        "Improved UI/UX for mobile and desktop layouts, decreasing rendering issues by 35% and improving usability for users"
+        "Enhanced DocsGPT, an open-source platform with 20,000+ users, improving AI prompt logic and RAG accuracy by 20%",
+        "Resolved fixes for Docker deployments via Shell and PowerShell, minimizing setup errors by 60% across environments",
+        "Refined mobile and desktop layout architecture, decreasing rendering issues by 35% and enhancing usability for users"
       ],
       github: "https://github.com/arc53/DocsGPT"
     },
@@ -378,9 +378,9 @@ export const Portfolio = () => {
       description: "AI-powered cybersecurity education platform using neural networks and advanced ML algorithms to provide personalized phishing detection and password security training with real-time analytics.",
       tech: ["Python", "Streamlit", "Scikit-learn", "SQLite", "NumPy", "Pandas"],
       highlights: [
-        "Built AI-powered cybersecurity platform with neural network scoring, achieving 95%+ accuracy in phishing detection training modules",
-        "Developed interactive learning games serving 50+ users with ML algorithms for password strength analysis and security pattern recognition",
-        "Implemented comprehensive analytics dashboard tracking user progress with 0-200 scale metrics and community performance comparisons"
+        "Delivered an AI-powered cybersecurity platform with a MLP neural network, generating $5,000 revenue and engagement",
+        "Promoted engagement by 75% and retention by 60% through adaptive learning modules on phishing and password security",
+        "Optimized SQLite tracking and neural network recommendations, revamping assessment accuracy by 30% across users"
       ],
       github: "https://github.com/poncema4/CyberSmart"
     },
@@ -393,8 +393,9 @@ export const Portfolio = () => {
       description: "A SaaS platform that is an AI-powered website builder that instantly creates customizable websites from a single prompt. Just describe your vision to the AI and it will create the website within seconds.",
       tech: ["TypeScript", "React.js", "Next.js", "PostgreSQL", "OpenAI API", "Docker", "Vercel"],
       highlights: [
-        "Enhanced AI accuracy by 30% through engineering advanced natural language processing modules and prompt engineering",
-        "Launched containerized microservices on Docker and Vercel, maintaining 99.9% uptime and support 300% user growth"
+        "Developed a SaaS platform generating websites from text prompts, cutting build time by 70% with 200+ daily outputs",
+        "Expanded AI accuracy by 30% through engineering advanced natural language processing modules and prompt engineering",
+        "Launched containerized microservices on Docker and Vercel, maintaining 99.9% uptime and supporting 300% user growth"
       ],
       github: "https://github.com/poncema4/Marcode-AI"
     },
