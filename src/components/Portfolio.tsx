@@ -275,7 +275,7 @@ export const Portfolio = () => {
       company: "PirateShield",
       location: "Newark, NJ",
       period: "Sep 2025 - Present",
-      type: "Full-time",
+      type: "Part-time",
       icon: Briefcase,
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
