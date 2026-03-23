@@ -355,24 +355,24 @@ export const Portfolio = () => {
 
   const projects = [
     {
-      title: "DocsGPT",
-      period: "Oct 2025 - Present",
-      status: "In Progress",
-      icon: Brain,
+      title: "PirateFlow",
+      period: "Mar 2026",
+      status: "Completed",
+      icon: Code,
       color: "text-blue-400",
-      description: "Private AI platform for agents, assistants and enterprise search. Built-in Agent Builder, Deep research, Document analysis, Multi-model support, and API connectivity for agents.",
-      tech: ["Python", "TypeScript", "LangChain", "Docker", "Shell", "PowerShell"],
+      description: "Real-time campus space intelligence platform featuring AI-powered utilization analytics, automated anomaly detection, face recognition access control, and smart room booking with live updates.",
+      tech: ["React.js", "Python", "Supabase", "Tailwind CSS", "FastAPI"],
       highlights: [
-        "Enhanced DocsGPT, an open-source platform with 20,000+ users, improving AI prompt logic and RAG accuracy by 20%",
-        "Resolved fixes for Docker deployments via Shell and PowerShell, minimizing setup errors by 60% across environments",
-        "Refined mobile and desktop layout architecture, decreasing rendering issues by 35% and enhancing usability for users"
+        "Led a 5-person team to develop AI room search, revenue tracking, and 7-day occupancy forecasting across 3 building types",
+        "Engineered a real-time campus space intelligence platform, cutting ghost bookings by 71% with AI anomaly detection",
+        "Deployed full-stack app to production across 5 buildings, achieving 99.9% uptime and reducing unauthorized access by 85%"
       ],
-      github: "https://github.com/arc53/DocsGPT"
+      github: "https://github.com/poncema4/PirateFlow"
     },
     {
       title: "CyberSmart",
-      period: "Aug 2025 - Present",
-      status: "In Progress",
+      period: "Aug 2025 - Dec 2025",
+      status: "Completed",
       icon: Shield,
       color: "text-purple-400",
       description: "AI-powered cybersecurity education platform using neural networks and advanced ML algorithms to provide personalized phishing detection and password security training with real-time analytics.",
@@ -383,6 +383,21 @@ export const Portfolio = () => {
         "Optimized SQLite tracking and neural network recommendations, revamping assessment accuracy by 30% across users"
       ],
       github: "https://github.com/poncema4/CyberSmart"
+    },
+        {
+      title: "DocsGPT",
+      period: "Oct 2025 - Nov 2025",
+      status: "Completed",
+      icon: Brain,
+      color: "text-blue-400",
+      description: "Private AI platform for agents, assistants and enterprise search. Built-in Agent Builder, Deep research, Document analysis, Multi-model support, and API connectivity for agents.",
+      tech: ["Python", "TypeScript", "LangChain", "Docker", "Shell", "PowerShell"],
+      highlights: [
+        "Enhanced DocsGPT, an open-source platform with 20,000+ users, improving AI prompt logic and RAG accuracy by 20%",
+        "Resolved fixes for Docker deployments via Shell and PowerShell, minimizing setup errors by 60% across environments",
+        "Refined mobile and desktop layout architecture, decreasing rendering issues by 35% and enhancing usability for users"
+      ],
+      github: "https://github.com/arc53/DocsGPT"
     },
     {
       title: "Marcode-AI",
