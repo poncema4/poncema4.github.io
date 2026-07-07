@@ -1,7 +1,7 @@
-import { Portfolio } from "@/components/Portfolio";
+import { PonceOS } from "@/components/PonceOS";
 
 const Index = () => {
-  return <Portfolio />;
+  return <PonceOS />;
 };
 
 export default Index;
