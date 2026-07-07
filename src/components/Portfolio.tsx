@@ -12,7 +12,7 @@ const TerminalAnimation = () => {
     { command: "git status", output: "On branch main\nYour branch is up to date with 'origin/main'", delay: 2000 },
     { command: "npm run build", output: "✓ Build completed successfully", delay: 1500 },
     { command: "python train_model.py", output: "Training model... 95% accuracy achieved", delay: 2500 },
-    { command: "ls", output: "home/  skills/  experience/  projects/  leave_a_note/" },
+    { command: "ls", output: "home/  skills/  experience/  projects/  publications/  leave_a_note/" },
     { command: "cd ~/portfolio && whoami", output: "marco ponce :)", delay: 1000 },
     { command: "cat README.md", output: "Welcome to my portfolio!", delay: 2000 }
   ];
@@ -105,7 +105,8 @@ import {
   Redo,
   Palette,
   Menu,
-  Gamepad2
+  Gamepad2,
+  Calendar
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
@@ -222,11 +223,12 @@ export const Portfolio = () => {
     name: "Marco Ponce",
     roles: [
       "Software Engineer",
-      "Computer Science Student",
+      "Computer Science Graduate",
       "Linux Lover",
     ],
 
     linkedin: "https://www.linkedin.com/in/ponce-marco/",
+    calendly: "https://calendly.com/ponce-marco/nj",
     github: "https://github.com/poncema4",
     gpa: "3.8",
     university: "Seton Hall University",
@@ -246,7 +248,6 @@ export const Portfolio = () => {
     programming: [
       { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
       { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
-      { name: "C", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
       { name: "C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
       { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
       { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
@@ -262,7 +263,7 @@ export const Portfolio = () => {
     ],
     cloud: [
       { name: "Google Cloud Platform", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" },
-      { name: "Azure", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" },
+      { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
       { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
       { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
       { name: "Redis", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" }
@@ -271,17 +272,49 @@ export const Portfolio = () => {
 
   const experience = [
     {
+      role: "Cybersecurity Consulting Intern",
+      company: "Arcova",
+      location: "Holmdel, NJ",
+      period: "Jun 2026 - Present",
+      type: "Internship",
+      icon: Shield,
+      color: "text-cyan-400",
+      bgColor: "bg-cyan-500/10",
+      tech: ["Python", "FastAPI", "Next.js", "TypeScript", "GCP", "Vertex AI", "LangChain", "PostgreSQL"],
+      achievements: [
+        "Shipped a full-stack AI platform to GCP behind Entra ID SSO and 300+ CI tests, launching 4 LLM features to production",
+        "Architected keyless Claude inference on Vertex AI with IAM auth, eliminating 100% of stored credentials for SOC 2",
+        "Ported an agentic LangChain research pipeline with web-search tooling, slashing client research time by 95%"
+      ]
+    },
+    {
+      role: "Cybersecurity Research & Systems Assistant",
+      company: "Seton Hall University",
+      location: "South Orange, NJ",
+      period: "Dec 2025 - May 2026",
+      type: "Part-time",
+      icon: Target,
+      color: "text-orange-400",
+      bgColor: "bg-orange-500/10",
+      tech: ["Virtual Machines", "Security Tools", "Networking", "Lab Systems"],
+      achievements: [
+        "Installed, configured, and tested software, virtual machines, and security tools for workshops and class labs",
+        "Maintained and troubleshot Wi-Fi adapters, network devices, and lab systems used for cybersecurity teaching",
+        "Prepared lab environments before sessions, connecting devices and verifying virtual machine functionality"
+      ]
+    },
+    {
       role: "Software Engineer",
       company: "PirateShield",
       location: "Newark, NJ",
-      period: "Sep 2025 - Present",
+      period: "Sep 2025 - May 2026",
       type: "Part-time",
       icon: Briefcase,
       color: "text-blue-400",
       bgColor: "bg-blue-500/10",
-      tech: ["Python", "C", "C++", "Docker", "Git"],
+      tech: ["Python", "TypeScript", "Docker", "Git"],
       achievements: [
-        "Implemented Zero-Trust anomaly detection using Python and C++, boosting IoT response speed by 45% across networks",
+        "Implemented Zero-Trust anomaly detection using Python and TypeScript, boosting IoT response speed by 45% across networks",
         "Optimized multi-threaded event processing with Docker, cutting CPU usage 30% and enhancing real-time data throughput",
         "Created scalable plug-and-play security APIs, accelerating K–12 deployment time by 60% and assisting 10+ organizations"
       ]
@@ -299,15 +332,14 @@ export const Portfolio = () => {
       achievements: [
         "Designed and launched 300+ custom game servers in Java, scaling to support over 2,500+ concurrent users",
         "Introduced automated monitoring and debugging tools, decreasing server downtime by 60% and advancing overall stability",
-        "Amplified client traffic by 400% by launching 20+ web platforms through targeted SEO and social media strategies",
-        "Collaborated with clients to transform business needs into scalable platforms for influencers and million-dollar brands"
+        "Amplified client traffic by 400% by launching 20+ web platforms through targeted SEO and social media strategies"
       ]
     },
     {
       role: "Software Engineer Intern",
       company: "Reality AI",
       location: "New York City, NY",
-      period: "May 2025 - Aug 2025",
+      period: "Jun 2025 - Aug 2025",
       type: "Internship",
       icon: Code,
       color: "text-purple-400",
@@ -380,7 +412,7 @@ export const Portfolio = () => {
       highlights: [
         "Delivered an AI-powered cybersecurity platform with a MLP neural network, generating $5,000 revenue and engagement",
         "Promoted engagement by 75% and retention by 60% through adaptive learning modules on phishing and password security",
-        "Optimized SQLite tracking and neural network recommendations, revamping assessment accuracy by 30% across users"
+        "Streamlined SQLite tracking and neural network recommendations, revamping assessment accuracy by 30% across users"
       ],
       github: "https://github.com/poncema4/CyberSmart"
     },
@@ -395,7 +427,7 @@ export const Portfolio = () => {
       highlights: [
         "Enhanced DocsGPT, an open-source platform with 20,000+ users, improving AI prompt logic and RAG accuracy by 20%",
         "Resolved fixes for Docker deployments via Shell and PowerShell, minimizing setup errors by 60% across environments",
-        "Refined mobile and desktop layout architecture, decreasing rendering issues by 35% and enhancing usability for users"
+        "Refined mobile and desktop layout architecture, decreasing rendering issues by 35% and elevating usability for users"
       ],
       github: "https://github.com/arc53/DocsGPT"
     },
@@ -408,9 +440,9 @@ export const Portfolio = () => {
       description: "A SaaS platform that is an AI-powered website builder that instantly creates customizable websites from a single prompt. Just describe your vision to the AI and it will create the website within seconds.",
       tech: ["TypeScript", "React.js", "Next.js", "PostgreSQL", "OpenAI API", "Docker", "Vercel"],
       highlights: [
-        "Developed a SaaS platform generating websites from text prompts, cutting build time by 70% with 200+ daily outputs",
+        "Developed a SaaS platform generating websites from text prompts, shrinking build time by 70% with 200+ daily outputs",
         "Expanded AI accuracy by 30% through engineering advanced natural language processing modules and prompt engineering",
-        "Launched containerized microservices on Docker and Vercel, maintaining 99.9% uptime and supporting 300% user growth"
+        "Orchestrated Docker microservices on Vercel, maintaining 99.9% uptime and supporting 300% user growth"
       ],
       github: "https://github.com/poncema4/Marcode-AI"
     },
@@ -449,7 +481,44 @@ export const Portfolio = () => {
     { value: "3+", label: "Years Experience", sublabel: "Software Engineering", icon: Briefcase },
     { value: "20K+", label: "Users Impacted", sublabel: "Across Projects", icon: Users },
     { value: "50+", label: "Open Source", sublabel: "Contributions", icon: GitBranch },
-    { value: "60%", label: "Speed Boost", sublabel: "Deployment Time", icon: Brain }
+    { value: "2", label: "ACM Publications", sublabel: "Security Research", icon: Trophy }
+  ];
+
+  const publications = [
+    {
+      title: "RiskCast: Behavioral Risk Forecasting Across Multi-Modal Security Streams",
+      venue: "ACM IWSPA '26",
+      authors: "S. Anand, M. Ponce, D. Duong",
+      location: "Frankfurt am Main, Germany",
+      period: "Jun 2026",
+      doi: "https://doi.org/10.1145/3806007.3810965"
+    },
+    {
+      title: "BBKR: Behavior-Driven Key Rotation for Zero Trust Network Security",
+      venue: "ACM SaT-CPS '26",
+      authors: "S. Anand, M. Ponce, D. Duong",
+      location: "Frankfurt am Main, Germany",
+      period: "Jun 2026",
+      doi: "https://doi.org/10.1145/3806008.3811702"
+    }
+  ];
+
+  const certifications = [
+    "Building with the Claude API",
+    "Claude Code in Action",
+    "Claude 101",
+    "Claude Code 101",
+    "Claude Platform 101",
+    "Introduction to Model Context Protocol",
+    "Model Context Protocol: Advanced Topics",
+    "Introduction to Subagents",
+    "Introduction to Agent Skills",
+    "Introduction to Claude Cowork",
+    "AI Fluency Framework & Foundations",
+    "AI Fluency for Nonprofits",
+    "AI Fluency for Small Businesses",
+    "AI Capabilities and Limitations",
+    "AWS Academy Graduate — Cloud Foundations"
   ];
 
   // Load notes from Supabase
@@ -873,6 +942,7 @@ export const Portfolio = () => {
                 { id: 'skills', label: 'Skills' },
                 { id: 'experience', label: 'Experience' },
                 { id: 'projects', label: 'Projects' },
+                { id: 'publications', label: 'Publications' },
                 { id: 'notes', label: 'Leave a Note' }
               ].map((item) => (
                 <button
@@ -911,6 +981,17 @@ export const Portfolio = () => {
                 <Linkedin className="h-4 w-4" />
               </motion.a>
 
+              <motion.a
+                href={personalInfo.calendly}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              >
+                <Calendar className="h-4 w-4" />
+              </motion.a>
+
               {/* Contact Me Button */}
               <motion.button
                 onClick={handleContactClick}
@@ -938,6 +1019,7 @@ export const Portfolio = () => {
                   { id: 'skills', label: 'Skills' },
                   { id: 'experience', label: 'Experience' },
                   { id: 'projects', label: 'Projects' },
+                  { id: 'publications', label: 'Publications' },
                   { id: 'notes', label: 'Leave a Note' }
                 ].map((item) => (
                   <button
@@ -1010,9 +1092,9 @@ export const Portfolio = () => {
                   transition={{ delay: 0.9 }}
                   className="text-base md:text-lg text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto lg:mx-0"
                 >
-                  Computer Science student at <span className="text-white font-semibold">{personalInfo.university}</span> 
+                  Computer Science graduate from <span className="text-white font-semibold">{personalInfo.university}</span>
                   {' '}with a deep interest for building innovative software,
-                  expected to graduate in <span className="text-white font-semibold">{personalInfo.graduation}</span>.
+                  graduated in <span className="text-white font-semibold">{personalInfo.graduation}</span>.
                 </motion.p>
 
                 {/* Terminal Interface */}
@@ -1096,7 +1178,7 @@ export const Portfolio = () => {
                   <Code className="text-blue-400 w-4 h-4" />
                   Programming Languages
                 </h3>
-                <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-2">
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
                   {skills.programming.map((skill, index) => (
                     <motion.div
                       key={skill.name}
@@ -1360,6 +1442,86 @@ export const Portfolio = () => {
                     </motion.a>
                   </div>
                 </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Publications Section */}
+        <section id="publications" className="py-8 md:py-12 px-4 md:px-6 relative">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-8 md:mb-10"
+            >
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3">
+                <span className="bg-gradient-to-r from-white via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Publications
+                </span>
+              </h2>
+              <p className="text-gray-300 text-sm md:text-base max-w-xl mx-auto">
+                Peer-reviewed security research published at ACM venues
+              </p>
+            </motion.div>
+
+            <div className="grid gap-4 md:gap-6 md:grid-cols-2">
+              {publications.map((pub, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 }}
+                  whileHover={{ y: -5 }}
+                  className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 md:p-5 border border-white/10 hover:border-white/20 transition-all duration-300 group"
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                      <Trophy className="w-4 h-4 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-base md:text-lg font-bold text-white group-hover:text-purple-300 transition-colors leading-snug">
+                        {pub.title}
+                      </h3>
+                      <p className="text-xs text-gray-400 mt-1">{pub.venue} · {pub.period} · {pub.location}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-sm mb-4">{pub.authors}</p>
+                  <motion.a
+                    href={pub.doi}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center gap-1 text-purple-300 hover:text-white transition-colors"
+                  >
+                    <span className="text-xs font-medium">Read Paper (DOI)</span>
+                    <ExternalLink className="w-2.5 h-2.5" />
+                  </motion.a>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Certifications strip */}
+        <section id="certifications" className="py-4 md:py-6 px-4 md:px-6 relative">
+          <div className="max-w-5xl mx-auto text-center">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-gray-400 text-xs uppercase tracking-widest mb-3"
+            >
+              Certifications — Anthropic & AWS
+            </motion.p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {certifications.map((cert) => (
+                <span key={cert} className="px-3 py-1.5 bg-white/10 border border-white/10 text-gray-200 rounded-full text-xs font-medium">
+                  {cert}
+                </span>
               ))}
             </div>
           </div>
