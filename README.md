@@ -1,151 +1,64 @@
-# Marco Ponce - Professional Portfolio
+# PONCE-OS
 
-A modern, interactive portfolio website showcasing full-stack development expertise, AI/ML projects, and professional experience. Built with cutting-edge technologies and designed to impress recruiters and potential collaborators.
+Marco Ponce's portfolio — built as an operating system, not a webpage.
 
-## 🚀 Live Demo
+Visitors boot into a workstation: a kernel boot sequence, a particle constellation,
+a live "coding since age 10" uptime counter, and a terminal that actually works.
 
-Visit the live portfolio: [Your Portfolio URL]
+**Live:** https://poncema4.vercel.app
 
-## ✨ Features
+## The terminal is real
 
-### 🎨 Modern Design
-- **Glassmorphism UI** with backdrop blur effects
-- **Framer Motion animations** for smooth interactions
-- **Responsive design** that works on all devices
-- **Dark theme** optimized for professional viewing
-- **Interactive elements** with hover effects and micro-animations
+Type `help` in the terminal on the site. Highlights:
 
-### 📱 Interactive Phone Mockup
-- **Virtual smartphone interface** showcasing mobile app development skills
-- **Mini-applications** including:
-  - About Me with personal information and achievements
-  - Skills showcase with progress bars and expertise levels
-  - Featured projects with detailed descriptions
-  - Interactive tools and games
-  - Professional experience timeline
+| Command | What it does |
+|---|---|
+| `neofetch` | System card with ASCII Tux |
+| `nmap marco` | Skill set, presented as an open-port scan |
+| `sudo hire-marco` | Recruitment protocol |
+| `resume` | Downloads the actual resume PDF |
+| `history` | Career timeline |
+| `stack` | Languages and tools |
+| `lang es` / `lang en` | Bilingual mode |
+| `ping keel` | Say hello to the first mate |
+| `reboot` | Replay the boot sequence |
 
-### 🛠 Technical Highlights
-- **Smooth scrolling navigation** with section highlighting
-- **Intersection Observer API** for scroll-triggered animations
-- **TypeScript** for type safety and better development experience
-- **Tailwind CSS** for utility-first styling
-- **Custom CSS animations** for enhanced visual appeal
-- **Component-based architecture** for maintainability
+There is also a hidden admin mode (`su`), a Konami code, and a few other things
+left for visitors to find.
 
-### 📊 Professional Sections
-- **Hero Section** with compelling introduction
-- **Skills Matrix** with categorized expertise levels
-- **Featured Projects** with live demos and GitHub links
-- **Professional Experience** with achievements and impact
-- **Contact Form** with email integration via Supabase
+## Stack
 
-## 🛠 Tech Stack
+- Vite + React 18 + TypeScript
+- Hand-rolled canvas particle physics (no animation libraries)
+- WebAudio-synthesized keystroke sounds (no audio files)
+- Tailwind (base styles) + component-scoped CSS
+- Deployed on Vercel — every push to `main` auto-deploys
 
-### Frontend
-- **React 18** - Modern UI library
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library
-- **Lucide React** - Beautiful icon library
-
-### Backend & Services
-- **Supabase** - Backend as a Service
-- **PostgreSQL** - Database for contact submissions
-- **Edge Functions** - Serverless email processing
-
-### Development Tools
-- **ESLint** - Code linting
-- **PostCSS** - CSS processing
-- **Git** - Version control
-- **GitHub Pages** - Deployment
-
-## 🎯 Key Differentiators
-
-### For Recruiters
-- **Clear skill visualization** with proficiency levels
-- **Detailed project showcases** with tech stacks and achievements
-- **Professional experience** with quantified impact
-- **Modern development practices** demonstrated through code quality
-- **Responsive design** showing mobile-first approach
-
-### Technical Excellence
-- **Performance optimized** with lazy loading and code splitting
-- **Accessibility focused** with proper ARIA labels and keyboard navigation
-- **SEO friendly** with semantic HTML and meta tags
-- **Error boundaries** for graceful error handling
-- **Type safety** throughout the application
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn package manager
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/poncema4/poncema4.github.io.git
-   cd poncema4.github.io
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:8080`
-
-### Build for Production
-
-```bash
-npm run build
-npm run preview
-```
-
-## 📁 Project Structure
+## Structure
 
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── ui/             # shadcn/ui components
-│   ├── apps/           # Phone app components
-│   ├── Portfolio.tsx   # Main portfolio component
-│   ├── ContactForm.tsx # Contact form with animations
-│   └── ...
-├── hooks/              # Custom React hooks
-├── integrations/       # Third-party service integrations
-├── lib/               # Utility functions
-├── pages/             # Page components
-└── assets/            # Static assets
+  main.tsx                entry
+  App.tsx                 router (/, 404)
+  pages/                  Index (mounts PonceOS), NotFound
+  components/PonceOS.tsx  the entire experience: data, terminal, sections, styles
+public/
+  Marco_Ponce_Resume.pdf  served by the `resume` command
 ```
 
-## 🎨 Design Philosophy
+The whole site is intentionally one self-contained component. Previous designs
+live in git history (tag `stable-before-experiments` and earlier commits) rather
+than as dead code in the tree.
 
-### User Experience First
-- **Intuitive navigation** with clear visual hierarchy
-- **Progressive disclosure** of information
-- **Smooth animations** that enhance rather than distract
-- **Fast loading times** with optimized assets
+## Development
 
-### Professional Appeal
-- **Clean, modern aesthetic** that reflects technical competence
-- **Consistent branding** throughout the experience
-- **Mobile-first design** for accessibility
-- **High contrast ratios** for readability
+```bash
+npm install
+cp .env.example .env.local   # one optional variable (admin mode)
+npm run dev                  # http://localhost:5173
+npm run build                # production build
+```
 
-## 📧 Contact
+## License
 
-- **GitHub**: [poncema4](https://github.com/poncema4)
-- **Portfolio**: [poncema4.github.io](https://poncema4.github.io)
-
----
-
-**Built with ❤️ by Marco Ponce** | Showcasing the intersection of design and development
+Design and content (c) Marco Ponce. Template bones from the Vite/React ecosystem (MIT).
