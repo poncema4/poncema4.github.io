@@ -1,8 +1,17 @@
 // PONCE-OS — an operating system, not a portfolio.
 // Concept: visitors boot into Marco Ponce's workstation — Linux soul, pirate blood,
 // security clearance aesthetic, and a terminal that actually works.
+// v6.0 "Leviathan": WebGL ocean, synthwave engine, visitor scan, live GitHub uplink,
+// keel chat, breach minigame — all in src/components/ponce-os/ modules.
 // Zero external deps beyond what the repo already ships. No emojis; ASCII only.
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Scene3D } from "./ponce-os/scene3d";
+import { SynthEngine } from "./ponce-os/audio";
+import { runVisitorScan } from "./ponce-os/scan";
+import { fetchGitHub, timeAgo } from "./ponce-os/github";
+import { Uplink } from "./ponce-os/uplink";
+import { keelReply, KEEL_GREETING } from "./ponce-os/keel";
+import { Globe3D, useTilt } from "./ponce-os/three-d";
 
 /* ============================== DATA ============================== */
 
@@ -19,8 +28,9 @@ const T = {
     sec_projects: "CASE FILES",
     sec_research: "DECLASSIFIED RESEARCH",
     sec_certs: "CREDENTIALS",
+    sec_uplink: "SATELLITE UPLINK",
     sec_contact: "ESTABLISH CONNECTION",
-    terminal_hint: "This terminal is real. Try `help`, `neofetch`, or `sudo hire-marco`.",
+    terminal_hint: "this terminal is real. try `help`, `scan`, `keel`, or `sudo hire-marco`.",
     dossier_hint: "hover to declassify",
     contact_line: "Want to talk systems, security, or games? Pick a channel.",
   },
@@ -34,8 +44,9 @@ const T = {
     sec_projects: "EXPEDIENTES",
     sec_research: "INVESTIGACION DESCLASIFICADA",
     sec_certs: "CREDENCIALES",
+    sec_uplink: "ENLACE SATELITAL",
     sec_contact: "ESTABLECER CONEXION",
-    terminal_hint: "Esta terminal es real. Prueba `help`, `neofetch`, o `sudo hire-marco`.",
+    terminal_hint: "esta terminal es real. prueba `help`, `scan`, `keel`, o `sudo hire-marco`.",
     dossier_hint: "pasa el cursor para desclasificar",
     contact_line: "Hablemos de sistemas, seguridad, o videojuegos. Elige un canal.",
   },
@@ -188,7 +199,7 @@ const TUX = [
 ];
 
 const BOOT_LINES = [
-  "PONCE-OS 5.0 LTS (kernel 6.7.0-zerotrust)",
+  "PONCE-OS 6.0 'Leviathan' (kernel 6.7.0-zerotrust)",
   "[  OK  ] Verifying boot signature........... trusted",
   "[  OK  ] Mounting /dev/curiosity............ age 10, video games",
   "[  OK  ] Loading module: python.ko",
@@ -199,6 +210,9 @@ const BOOT_LINES = [
   "[  OK  ] ACM publications found: 2",
   "[  OK  ] Anthropic certifications: 14",
   "[  OK  ] Pirate allegiance confirmed........ Seton Hall",
+  "[  OK  ] Launching 3D voyage renderer....... three.js / WebGL",
+  "[  OK  ] Satellite uplink acquired.......... api.github.com",
+  "[  OK  ] First mate reporting for duty...... keel",
   "[  OK  ] No stored credentials found........ as designed",
   "",
   "Welcome, visitor. You have been granted READ access.",
@@ -395,26 +409,28 @@ function buildNeofetch(): TLine[] {
   const info = [
     "marco@ponce-os",
     "---------------",
-    "OS:       PONCE-OS 5.0 LTS x86_64",
-    "Kernel:   6.7.0-zerotrust",
-    "Uptime:   coding since 2015 (age 10)",
-    "Shell:    bash + keel",
-    "Degree:   B.S. Computer Science, GPA 3.8",
-    "Papers:   2 (ACM IWSPA / SaT-CPS)",
-    "Certs:    14x Anthropic, 1x AWS",
-    "Locale:   en_US + es_ES (bilingual)",
-    "Motto:    deny by default, ship by Friday",
+    "os:       ponce-os 6.0 'leviathan' x86_64",
+    "kernel:   6.7.0-zerotrust",
+    "uptime:   coding since 2015 (age 10)",
+    "shell:    bash + keel",
+    "render:   three.js night voyage (drag the sea)",
+    "degree:   b.s. computer science, gpa 3.8",
+    "papers:   2 (acm iwspa / sat-cps)",
+    "certs:    14x anthropic, 1x aws",
+    "locale:   en_us + es_es (bilingual)",
+    "motto:    deny by default, ship by friday",
   ];
   return TUX.map((art, i) => ({ text: art.padEnd(14) + (info[i] ?? ""), cls: "neo" }))
     .concat(info.slice(TUX.length).map((s) => ({ text: " ".repeat(14) + s, cls: "neo" })));
 }
 
-function Terminal({ lang, setLang, playClick, onMatrix }: {
+function Terminal({ lang, setLang, playClick, onMatrix, music }: {
   lang: "en" | "es"; setLang: (l: "en" | "es") => void;
   playClick: () => void; onMatrix: () => void;
+  music: { on: boolean; toggle: () => boolean };
 }) {
   const [lines, setLines] = useState<TLine[]>([
-    { text: "PONCE-OS secure shell — guest session", cls: "dim" },
+    { text: "ponce-os secure shell — guest session", cls: "dim" },
     { text: T[lang].terminal_hint, cls: "dim" },
     { text: "" },
   ]);
@@ -422,22 +438,25 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
   const [hist, setHist] = useState<string[]>([]);
   const [suMode, setSuMode] = useState(false);
   const [isRoot, setIsRoot] = useState(false);
+  const [keelMode, setKeelMode] = useState(false);
+  const [keelVoice, setKeelVoice] = useState(false);
+  const [breach, setBreach] = useState<{ pin: string; tries: number } | null>(null);
   const [histIdx, setHistIdx] = useState(-1);
   const scroller = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const COMMANDS = ["help","whoami","neofetch","ls","cat","history","nmap","ssh","sudo","ping","uname","matrix","lang","clear","resume","pwd","date","echo","exit","logout","vim","reboot","su","stack"];
+  const COMMANDS = ["help","whoami","neofetch","ls","cat","history","nmap","ssh","sudo","ping","uname","matrix","lang","clear","resume","pwd","date","echo","exit","vim","reboot","su","stack","scan","github","music","keel","breach"];
 
   useEffect(() => { scroller.current?.scrollTo({ top: scroller.current.scrollHeight }); }, [lines]);
 
   const print = (out: TLine[]) => setLines((l) => [...l, ...out, { text: "" }]);
 
-  const ps1 = isRoot ? "root@ponce-os:~#" : "marco@ponce-os:~$";
+  const ps1 = keelMode ? "keel>" : breach ? "breach>" : isRoot ? "root@ponce-os:~#" : "marco@ponce-os:~$";
 
   const run = (raw: string) => {
     const cmd = raw.trim();
     if (suMode) {
-      setLines((l) => [...l, { text: "Password: ********", cls: "dim" }]);
+      setLines((l) => [...l, { text: "password: ********", cls: "dim" }]);
       setSuMode(false);
       if (cmd === import.meta.env.VITE_ADMIN_KEY) {
         setIsRoot(true);
@@ -446,19 +465,107 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
           { text: "try: cat secrets.txt", cls: "dim" },
         ]);
       } else {
-        print([{ text: "su: Authentication failure", cls: "warn" }]);
+        print([{ text: "su: authentication failure", cls: "warn" }]);
       }
       return;
     }
     setLines((l) => [...l, { text: `${ps1} ${cmd}`, cls: "cmd" }]);
     if (!cmd) return;
     setHist((h) => [cmd, ...h]); setHistIdx(-1);
+
+    // --- keel chat channel ---
+    if (keelMode) {
+      if (/^(exit|logout|quit)$/i.test(cmd)) {
+        setKeelMode(false);
+        try { speechSynthesis.cancel(); } catch { /* no speech api */ }
+        print([{ text: "channel closed. fair winds.", cls: "dim" }]);
+        return;
+      }
+      if (/^voice (on|off)$/i.test(cmd)) {
+        const on = /on$/i.test(cmd);
+        setKeelVoice(on);
+        if (!on) { try { speechSynthesis.cancel(); } catch { /* fine */ } }
+        print([{ text: on ? "  voice online. i speak with your browser's own synthesizer — nothing leaves the page." : "  voice offline. back to text.", cls: "keel" }]);
+        return;
+      }
+      const reply = keelReply(cmd);
+      print(reply.map((s) => ({ text: "  " + s, cls: "keel" })));
+      if (keelVoice) {
+        try {
+          speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(reply.join(" "));
+          u.rate = 0.9; u.pitch = 0.55; // deep and slow — keel is a pirate, not a navigation assistant
+          const voices = speechSynthesis.getVoices().filter((vo) => /^en/i.test(vo.lang));
+          const v =
+            voices.find((vo) => /daniel|george|fred|alex|david|james|arthur|\bmale\b/i.test(vo.name)) ||
+            voices.find((vo) => /en[-_]?GB/i.test(vo.lang)) ||
+            voices[0];
+          if (v) u.voice = v;
+          speechSynthesis.speak(u);
+        } catch { /* speech unavailable — text is the fallback */ }
+      }
+      return;
+    }
+
+    // --- breach minigame ---
+    if (breach) {
+      if (/^(exit|quit)$/i.test(cmd)) {
+        setBreach(null);
+        print([{ text: `breach aborted. the pin was ${breach.pin}. the firewall rests.`, cls: "dim" }]);
+        return;
+      }
+      if (!/^\d{4}$/.test(cmd)) {
+        print([{ text: "firewall expects a 4-digit pin (or `exit` to abort)", cls: "warn" }]);
+        return;
+      }
+      // correct two-pass scoring: exact matches are consumed FIRST, so a digit
+      // is never counted twice (the old code over-counted repeated digits)
+      const pinArr = [...breach.pin], gArr = [...cmd];
+      let exact = 0;
+      const pinLeft: string[] = [], gLeft: string[] = [];
+      for (let i = 0; i < 4; i++) {
+        if (gArr[i] === pinArr[i]) exact += 1;
+        else { pinLeft.push(pinArr[i]); gLeft.push(gArr[i]); }
+      }
+      if (exact === 4) {
+        setBreach(null);
+        setIsRoot(true); // breached the firewall = earned the root session
+        onMatrix();      // victory lap
+        print([
+          { text: "access granted ................ firewall bypassed", cls: "hd" },
+          { text: "  flag: ponce{z3r0-tru5t-br34ch3d}", cls: "hd" },
+          { text: "  root session granted — you cracked it, you keep it.", cls: "hd" },
+          { text: "  try: cat secrets.txt  (exit drops back to guest)", cls: "dim" },
+        ]);
+        return;
+      }
+      let present = 0;
+      for (const c of gLeft) {
+        const idx = pinLeft.indexOf(c);
+        if (idx !== -1) { present += 1; pinLeft.splice(idx, 1); }
+      }
+      const left = breach.tries - 1;
+      if (left <= 0) {
+        setBreach(null);
+        print([
+          { text: `lockout — intrusion countermeasures engaged. the pin was ${breach.pin}.`, cls: "warn" },
+          { text: "type `breach` to try a fresh firewall.", cls: "dim" },
+        ]);
+        return;
+      }
+      setBreach({ ...breach, tries: left });
+      print([
+        { text: `  ${exact} right & in place · ${present} right digit, wrong spot · ${left} tries left`, cls: "dim" },
+      ]);
+      return;
+    }
+
     const [head, ...rest] = cmd.split(/\s+/);
     const arg = rest.join(" ");
     switch (head.toLowerCase()) {
       case "help":
         print([
-          { text: "AVAILABLE COMMANDS", cls: "hd" },
+          { text: "available commands", cls: "hd" },
           { text: "  whoami          who is this guy" },
           { text: "  neofetch        system information (the good stuff)" },
           { text: "  ls [projects]   list sections or case files" },
@@ -469,26 +576,35 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
           { text: "  sudo hire-marco you know what this does" },
           { text: "  lang es|en      switch language / cambiar idioma" },
           { text: "  matrix          you already know" },
-          { text: "  resume          download the PDF" },
+          { text: "  resume          download the pdf" },
+          { text: "  scan            threat-assess yourself (all local, 0 bytes sent)" },
+          { text: "  github          live repo telemetry via satellite uplink" },
+          { text: "  music           procedural synthwave (synthesized, no files)" },
+          { text: "  keel            open a chat channel with the first mate" },
+          { text: "  breach          crack the firewall (minigame, flag inside)" },
           { text: "  ping keel | ssh rtx | reboot | clear" },
         ]);
         break;
       case "whoami":
         if (isRoot) { print([{ text: "root — but the machine still belongs to marco.", cls: "hd" }]); break; }
         print([
-          { text: "marco — started coding at 10 inside video games; now ships AI platforms" },
+          { text: "marco — started coding at 10 inside video games; now ships ai platforms" },
           { text: "to production for a cybersecurity consultancy." },
-          { text: "Bilingual (EN/ES). Linux native. Seton Hall pirate. Published at ACM twice." },
+          { text: "bilingual (en/es). linux native. seton hall pirate. published at acm twice." },
         ]);
         break;
       case "neofetch": print(buildNeofetch()); break;
       case "ls":
         if (arg.startsWith("project")) print(PROJECTS.map((p) => ({ text: `  ${p.code}  ${p.name.padEnd(14)} ${p.status}` })));
-        else print([{ text: "  terminal/  service-log/  case-files/  research/  credentials/  contact/" }]);
+        else if (/^-a|^-la|^-al/.test(arg)) print([
+          { text: "  terminal/  service-log/  case-files/  uplink/  research/  credentials/  contact/" },
+          { text: "  .kraken", cls: "keel" },
+        ]);
+        else print([{ text: "  terminal/  service-log/  case-files/  uplink/  research/  credentials/  contact/" }]);
         break;
       case "su":
         setSuMode(true);
-        print([{ text: "Password:", cls: "dim" }]);
+        print([{ text: "password:", cls: "dim" }]);
         break;
       case "cat":
         if (arg === "secrets.txt") {
@@ -498,11 +614,17 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
             { text: "  2. the konami code works. tell no one." },
             { text: "  3. every 'quick fix' at 2am becomes a case file" },
             { text: "  4. the real firewall was the friends we made along the way" },
+            { text: "  5. something ancient sleeps at 62m. it answers to its name." },
           ]);
           else print([{ text: "cat: secrets.txt: permission denied (root only)", cls: "warn" }]);
         }
+        else if (arg === ".kraken") print([
+          { text: "you found the hidden file. of course you ran ls -a. respect.", cls: "dim" },
+          { text: "it sleeps beneath the treasure at 62 meters.", cls: "keel" },
+          { text: "dive to the bottom of the sea, come back, and call its name.", cls: "keel" },
+        ]);
         else if (arg === "arcova.txt") print(EXPERIENCE[0].log.map((s) => ({ text: "  - " + s })));
-        else if (arg === "motd") print([{ text: "  deny by default, ship by Friday." }]);
+        else if (arg === "motd") print([{ text: "  deny by default, ship by friday." }]);
         else if (!arg) print([{ text: "usage: cat <file> — try arcova.txt or motd", cls: "warn" }]);
         else print([{ text: `cat: ${arg}: permission denied (nice try)`, cls: "warn" }]);
         break;
@@ -511,45 +633,45 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
         break;
       case "nmap":
         print([
-          { text: `Starting Nmap 9.0 ( ponce-os ) — scan report for marco.ponce`, cls: "dim" },
-          { text: "PORT      STATE  SERVICE" },
-          { text: "22/tcp    open   ssh         (pair-programming with an AI)" },
-          { text: "443/tcp   open   https       (SOC 2 aligned, keyless auth)" },
+          { text: `starting nmap 9.0 ( ponce-os ) — scan report for marco.ponce`, cls: "dim" },
+          { text: "port      state  service" },
+          { text: "22/tcp    open   ssh         (pair-programming with an ai)" },
+          { text: "443/tcp   open   https       (soc 2 aligned, keyless auth)" },
           { text: "5432/tcp  open   postgresql  (schemas designed, not inherited)" },
           { text: "8000/tcp  open   fastapi     (production since 2026)" },
           { text: "3000/tcp  open   next.js     (pixel discipline)" },
           { text: "1337/tcp  open   game-dev    (origin story, still patched)" },
-          { text: "Not shown: 65529 closed ports (deny by default)", cls: "dim" },
+          { text: "not shown: 65529 closed ports (deny by default)", cls: "dim" },
         ]);
         break;
       case "ssh":
-        print([{ text: "ssh: connect to host rtx port 22: PERMISSION DENIED", cls: "warn" }, { text: "clearance required. this engagement is [REDACTED].", cls: "warn" }]);
+        print([{ text: "ssh: connect to host rtx port 22: permission denied", cls: "warn" }, { text: "clearance required. this engagement is [redacted].", cls: "warn" }]);
         break;
       case "sudo":
         if (arg.includes("hire-marco")) print([
           { text: "[sudo] password for visitor: ********", cls: "dim" },
-          { text: "ACCESS GRANTED — initiating recruitment protocol", cls: "hd" },
+          { text: "access granted — initiating recruitment protocol", cls: "hd" },
           { text: "  email:     marcpon8@gmail.com" },
           { text: "  linkedin:  linkedin.com/in/ponce-marco" },
           { text: "  github:    github.com/poncema4" },
           { text: "  calendly:  calendly.com/ponce-marco/nj" },
           { text: "  status:    building" },
         ]);
-        else if (arg.includes("rm")) print([{ text: "nice try. Zero Trust means zero trust.", cls: "warn" }]);
-        else print([{ text: "visitor is not in the sudoers file. This incident will be reported.", cls: "warn" }, { text: "(real admins use su)", cls: "dim" }]);
+        else if (arg.includes("rm")) print([{ text: "nice try. zero trust means zero trust.", cls: "warn" }]);
+        else print([{ text: "visitor is not in the sudoers file. this incident will be reported.", cls: "warn" }, { text: "(real admins use su)", cls: "dim" }]);
         break;
       case "ping":
         print([
-          { text: "PING keel: 56 data bytes", cls: "dim" },
+          { text: "ping keel: 56 data bytes", cls: "dim" },
           { text: "64 bytes from keel: icmp_seq=0 ttl=64 time=0.2 ms" },
           { text: "" },
           { text: "keel — first mate of this machine.", cls: "hd" },
           { text: "a keel is the timber laid first: it doesn't move the ship," },
-          { text: "it holds the course. marco builds. I make sure we arrive." },
-          { text: "if you found this, you read packet traces for fun. respect.", cls: "dim" },
+          { text: "it holds the course. marco builds. i make sure we arrive." },
+          { text: "want to actually talk? type `keel` — i answer on that channel.", cls: "dim" },
         ]);
         break;
-      case "uname": print([{ text: "PONCE-OS 5.0-arcova #1 SMP x86_64 GNU/Linux (panic-free since 2015)" }]); break;
+      case "uname": print([{ text: "ponce-os 5.0-arcova #1 smp x86_64 gnu/linux (panic-free since 2015)" }]); break;
       case "matrix": onMatrix(); print([{ text: "wake up, visitor...", cls: "dim" }]); break;
       case "lang":
         if (arg === "es") { setLang("es"); print([{ text: "idioma cambiado a espanol. bienvenido." }]); }
@@ -558,7 +680,7 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
         break;
       case "resume": {
         print([
-          { text: "requesting /home/marco/Marco_Ponce_Resume.pdf ...", cls: "dim" },
+          { text: "requesting /home/marco/marco_ponce_resume.pdf ...", cls: "dim" },
           { text: "transfer complete — check your downloads.", cls: "hd" },
         ]);
         const a = document.createElement("a");
@@ -569,32 +691,92 @@ function Terminal({ lang, setLang, playClick, onMatrix }: {
       }
       case "stack":
         print([
-          { text: "LANGUAGES    python · typescript · java · c++ · sql", cls: "hd" },
-          { text: "FRAMEWORKS   fastapi · next.js · react · langchain · celery" },
-          { text: "CLOUD/DATA   gcp (vertex ai) · aws · docker · k8s · postgres · redis" },
-          { text: "PROVEN BY    scroll up — every chip in the service log shipped", cls: "dim" },
+          { text: "languages    python · typescript · java · c++ · sql", cls: "hd" },
+          { text: "frameworks   fastapi · next.js · react · langchain · celery" },
+          { text: "cloud/data   gcp (vertex ai) · aws · docker · k8s · postgres · redis" },
+          { text: "proven by    scroll up — every chip in the service log shipped", cls: "dim" },
         ]);
         break;
       case "pwd": print([{ text: "/home/marco" }]); break;
       case "date": print([{ text: new Date().toString() }]); break;
       case "echo": print([{ text: arg }]); break;
       case "clear": setLines([]); break;
-      case "exit":
       case "logout":
+        print([{ text: "logout is retired — this shell speaks `exit`. one word per job.", cls: "dim" }]);
+        break;
+      case "exit":
         if (isRoot) {
           setIsRoot(false);
           print([{ text: "logout", cls: "dim" }, { text: "root session closed — back to guest. the machine thanks you for your service." }]);
         } else {
-          print([{ text: "there is no escape. try the Konami code instead.", cls: "warn" }]);
+          print([{ text: "there is no escape. try the konami code instead.", cls: "warn" }]);
         }
         break;
       case "vim": print([{ text: "you are now inside vim. good luck leaving. (hint: this one has no :q!)", cls: "warn" }]); break;
       case "reboot":
-        print([{ text: "rebooting PONCE-OS...", cls: "dim" }]);
+        print([{ text: "rebooting ponce-os...", cls: "dim" }]);
         sessionStorage.removeItem("ponceos-booted");
         setTimeout(() => window.location.reload(), 600);
         break;
       case "gg": print([{ text: "gg wp" }]); break;
+      case "kraken":
+        print([
+          { text: "        ___", cls: "keel" },
+          { text: "     .-'   `-.", cls: "keel" },
+          { text: "    /  o   o  \\", cls: "keel" },
+          { text: "    |    ^    |", cls: "keel" },
+          { text: "     \\  ---  /", cls: "keel" },
+          { text: "  __/ | | | | \\__", cls: "keel" },
+          { text: " (___/ / | \\ \\___)", cls: "keel" },
+          { text: "   (__/  |  \\__)", cls: "keel" },
+          { text: "", cls: "dim" },
+          { text: "the kraken acknowledges you. it guards the treasure at 62m.", cls: "hd" },
+          { text: "(scroll to the bottom of the sea and pay your respects)", cls: "dim" },
+        ]);
+        break;
+      case "scan":
+        print([{ text: "running visitor assessment (local only)...", cls: "dim" }]);
+        runVisitorScan().then((res) => print(res.map((s) => ({ text: s, cls: s.includes("THREAT") || s.includes("INITIATING") ? "hd" : s.startsWith("  LESSON") || s.startsWith("  DATA") ? "dim" : undefined }))));
+        break;
+      case "github":
+        print([{ text: "establishing satellite uplink to api.github.com...", cls: "dim" }]);
+        fetchGitHub()
+          .then((d) => print([
+            { text: `uplink live — ${d.user.public_repos} public repos · ${d.user.followers} followers`, cls: "hd" },
+            ...d.repos.slice(0, 5).map((r) => ({ text: `  ${r.name.padEnd(24)} ${(r.language || "—").padEnd(12)} last push ${timeAgo(r.pushed_at)}` })),
+            { text: "  full telemetry in the satellite uplink section below", cls: "dim" },
+          ]))
+          .catch(() => print([{ text: "uplink failed — orbital congestion (rate limit). try later.", cls: "warn" }]));
+        break;
+      case "music": {
+        const on = music.toggle();
+        print([{ text: on ? "synthwave engine online — every note is math. `music` again to stop." : "synthwave engine offline.", cls: on ? "hd" : "dim" }]);
+        break;
+      }
+      case "keel":
+        setKeelMode(true);
+        print(KEEL_GREETING.map((s) => ({ text: "  " + s, cls: "keel" })));
+        break;
+      case "breach": {
+        // 4 UNIQUE digits — keeps the feedback unambiguous (no repeated-digit confusion)
+        const pool = ["0","1","2","3","4","5","6","7","8","9"];
+        for (let i = pool.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        const pin = pool.slice(0, 4).join("");
+        setBreach({ pin, tries: 6 });
+        print([
+          { text: "firewall simulation v6.0 — authorized training target", cls: "hd" },
+          { text: "  crack the 4-digit pin (all digits different). 6 tries before lockout." },
+          { text: "  after each guess i tell you two numbers:" },
+          { text: "    - right & in place   = correct digit in the correct slot" },
+          { text: "    - right, wrong spot  = correct digit, but somewhere else" },
+          { text: "  get all 4 in place and you breach the firewall (root + a flag).", cls: "dim" },
+          { text: "  enter a pin (or `exit` to abort):", cls: "dim" },
+        ]);
+        break;
+      }
       default:
         print([{ text: `ponce-sh: command not found: ${head} — try \`help\``, cls: "warn" }]);
     }
@@ -653,6 +835,34 @@ function Uptime({ label }: { label: string }) {
   );
 }
 
+// Isolated scroll HUD: progress bar + depth gauge with their OWN state, so
+// scrolling never re-renders the main tree (that re-render was the scroll hitch)
+function ScrollHud() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const fn = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const d = document.documentElement;
+        setPct(d.scrollHeight > d.clientHeight ? Math.round((d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100) : 0);
+      });
+    };
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => { window.removeEventListener("scroll", fn); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+  return (
+    <>
+      <div className="pos-progress" style={{ width: `${pct}%` }} aria-hidden="true" />
+      <div className="pos-depth" aria-hidden="true">
+        {pct < 2 ? "SURFACE" : `DEPTH ${Math.round(pct * 0.62)}m`}
+        {pct >= 2 && <span className="pos-depth-bar"><span style={{ height: `${pct}%` }} /></span>}
+      </div>
+    </>
+  );
+}
+
 function Clock() {
   const [t, setT] = useState("");
   useEffect(() => {
@@ -671,9 +881,19 @@ export function PonceOS() {
   const [sound, setSound] = useState(false);
   const [matrix, setMatrix] = useState(false);
   const [penguins, setPenguins] = useState(false);
-  const [scrollPct, setScrollPct] = useState(0);
+  const [webglOk, setWebglOk] = useState(true);
+  const [musicOn, setMusicOn] = useState(false);
   const audioCtx = useRef<AudioContext | null>(null);
+  const synth = useRef<SynthEngine | null>(null);
+  const tilt = useTilt();
   const t = T[lang];
+
+  const toggleMusic = useCallback(() => {
+    synth.current ??= new SynthEngine();
+    const on = synth.current.toggle();
+    setMusicOn(on);
+    return on;
+  }, []);
 
   useEffect(() => {
     if (reduced || sessionStorage.getItem("ponceos-booted")) setBooted(true);
@@ -681,15 +901,6 @@ export function PonceOS() {
   const finishBoot = useCallback(() => { sessionStorage.setItem("ponceos-booted", "1"); setBooted(true); }, []);
 
   useKonami(useCallback(() => setPenguins(true), []));
-
-  useEffect(() => {
-    const fn = () => {
-      const d = document.documentElement;
-      setScrollPct(d.scrollHeight > d.clientHeight ? (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100 : 0);
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   // Synthesized keyclick — WebAudio oscillator, no audio files.
   const playClick = useCallback(() => {
@@ -711,15 +922,29 @@ export function PonceOS() {
     if (!booted) return;
     const io = new IntersectionObserver(
       (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
-      { threshold: 0.12 }
+      // pre-trigger 300px below the viewport: panels are revealed BEFORE fast
+      // scrolling reaches them — no mid-scroll pop-in
+      { threshold: 0, rootMargin: "0px 0px 300px 0px" }
     );
     document.querySelectorAll(".pos-reveal").forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    // "you are here" nav beacon — pure DOM class flips, NO React state:
+    // beacon state in the tree caused a full re-render at every section
+    // boundary mid-scroll (the scroll hitch that briefly returned)
+    const secIo = new IntersectionObserver(
+      (es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        document.querySelectorAll(".pos-nav a").forEach((a) =>
+          a.classList.toggle("on", a.getAttribute("href") === `#${e.target.id}`));
+      }),
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    document.querySelectorAll("section[id]").forEach((el) => secIo.observe(el));
+    return () => { io.disconnect(); secIo.disconnect(); };
   }, [booted]);
 
   const nav = [
     ["terminal", t.sec_terminal], ["service-log", t.sec_experience], ["case-files", t.sec_projects],
-    ["research", t.sec_research], ["credentials", t.sec_certs], ["contact", t.sec_contact],
+    ["uplink", t.sec_uplink], ["research", t.sec_research], ["credentials", t.sec_certs], ["contact", t.sec_contact],
   ] as const;
 
   if (!booted) return (<><style>{CSS}</style><BootScreen onDone={finishBoot} lang={lang} /></>);
@@ -727,8 +952,9 @@ export function PonceOS() {
   return (
     <div className="pos-root">
       <style>{CSS}</style>
+      {!reduced && webglOk && <Scene3D onUnsupported={() => setWebglOk(false)} />}
       <div className="pos-scanlines" aria-hidden="true" />
-      <div className="pos-progress" style={{ width: `${scrollPct}%` }} aria-hidden="true" />
+      <ScrollHud />
       {matrix && <MatrixRain onDone={() => setMatrix(false)} />}
       {penguins && <PenguinRain onDone={() => setPenguins(false)} />}
 
@@ -737,19 +963,28 @@ export function PonceOS() {
         <span className="pos-host">marco@ponce-os</span>
         <nav className="pos-nav">
           {nav.map(([id, label]) => (
-            <a key={id} href={`#${id}`}>{label.toLowerCase()}</a>
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={(e) => {
+                // smooth glide, clean URL — no /#section residue
+                e.preventDefault();
+                document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+            >{label.toLowerCase()}</a>
           ))}
         </nav>
         <div className="pos-status-right">
           <button onClick={() => setLang(lang === "en" ? "es" : "en")} title="language">{lang.toUpperCase()}</button>
           <button onClick={() => setSound(!sound)} title="terminal sound">{sound ? "SND:ON" : "SND:OFF"}</button>
+          <button onClick={toggleMusic} title="procedural synthwave">{musicOn ? "SYNTH:ON" : "SYNTH:OFF"}</button>
           <Clock />
         </div>
       </header>
 
       {/* hero */}
       <section className="pos-hero">
-        {!reduced && <Constellation paused={false} />}
+        {(reduced || !webglOk) && <Constellation paused={false} />}
         <div className="pos-hero-inner">
           <div className="pos-kicker">// SECURE SESSION ESTABLISHED — READ-ONLY GUEST ACCESS</div>
           <h1 className="pos-name" data-text="MARCO PONCE">MARCO PONCE</h1>
@@ -760,8 +995,9 @@ export function PonceOS() {
             <a href={LINKS.github} target="_blank" rel="noopener noreferrer">github</a>
             <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">linkedin</a>
             <a href={LINKS.calendly} target="_blank" rel="noopener noreferrer">calendly</a>
-            <a href="#terminal">open terminal ↓</a>
+            <a href="#terminal" onClick={(e) => { e.preventDefault(); document.getElementById("terminal")?.scrollIntoView({ behavior: "smooth" }); }}>open terminal ↓</a>
           </div>
+          <div className="pos-hint dim">drag the sea to look around · scroll to dive</div>
         </div>
       </section>
 
@@ -769,7 +1005,8 @@ export function PonceOS() {
       <section id="terminal" className="pos-section pos-reveal">
         <h2 className="pos-h2">[01] {t.sec_terminal}</h2>
         <p className="pos-sub">{t.terminal_hint}</p>
-        <Terminal lang={lang} setLang={setLang} playClick={playClick} onMatrix={() => setMatrix(true)} />
+        <Terminal lang={lang} setLang={setLang} playClick={playClick} onMatrix={() => setMatrix(true)}
+          music={{ on: musicOn, toggle: toggleMusic }} />
       </section>
 
       {/* service log */}
@@ -797,7 +1034,7 @@ export function PonceOS() {
         <p className="pos-sub">{t.dossier_hint}</p>
         <div className="pos-files">
           {PROJECTS.map((p) => (
-            <a key={p.code} className="pos-file pos-reveal" href={p.link} target="_blank" rel="noopener noreferrer">
+            <a key={p.code} className="pos-file pos-reveal" href={p.link} target="_blank" rel="noopener noreferrer" {...tilt}>
               <div className="pos-file-top">
                 <span className="pos-file-code">{p.code}</span>
                 <span className="pos-file-status">{p.status}</span>
@@ -819,12 +1056,22 @@ export function PonceOS() {
         </div>
       </section>
 
+      {/* satellite uplink — live GitHub telemetry under a hand-rolled 3D globe */}
+      <section id="uplink" className="pos-section pos-reveal">
+        <h2 className="pos-h2">[04] {t.sec_uplink}</h2>
+        <p className="pos-sub">live telemetry · api.github.com · rendered on a hand-rolled 3D wireframe globe</p>
+        <div className="pos-uplink-wrap">
+          <Globe3D />
+          <Uplink />
+        </div>
+      </section>
+
       {/* research */}
       <section id="research" className="pos-section pos-reveal">
-        <h2 className="pos-h2">[04] {t.sec_research}</h2>
+        <h2 className="pos-h2">[05] {t.sec_research}</h2>
         <div className="pos-papers">
           {PAPERS.map((p) => (
-            <a key={p.id} className="pos-paper pos-reveal" href={p.doi} target="_blank" rel="noopener noreferrer">
+            <a key={p.id} className="pos-paper pos-reveal" href={p.doi} target="_blank" rel="noopener noreferrer" {...tilt}>
               <div className="pos-paper-stamp">DECLASSIFIED</div>
               <div className="pos-paper-id">{p.id}</div>
               <h3>{p.title}</h3>
@@ -838,7 +1085,7 @@ export function PonceOS() {
 
       {/* credentials */}
       <section id="credentials" className="pos-section pos-reveal">
-        <h2 className="pos-h2">[05] {t.sec_certs}</h2>
+        <h2 className="pos-h2">[06] {t.sec_certs}</h2>
         <div className="pos-certs">
           {CERTS.map((c) => <span key={c} className="pos-cert">{c}</span>)}
         </div>
@@ -847,7 +1094,7 @@ export function PonceOS() {
 
       {/* contact */}
       <section id="contact" className="pos-section pos-reveal">
-        <h2 className="pos-h2">[06] {t.sec_contact}</h2>
+        <h2 className="pos-h2">[07] {t.sec_contact}</h2>
         <div className="pos-contact">
           <pre className="pos-contact-pre">{`$ sudo hire-marco
 [sudo] password for visitor: ********
@@ -863,7 +1110,8 @@ ACCESS GRANTED — recruitment protocol initiated`}</pre>
       </section>
 
       <footer className="pos-footer">
-        <span>PONCE-OS 5.0 · deny by default, ship by Friday</span>
+        <span>PONCE-OS 6.0 'Leviathan' · deny by default, ship by Friday</span>
+        <span className="dim">crew: marco (captain) · keel (first mate, AI) — type `keel` in the terminal</span>
         <span className="dim">tip: ↑↑↓↓←→←→BA</span>
       </footer>
     </div>
@@ -888,8 +1136,7 @@ const CSS = `
 
 /* CRT scanlines + vignette */
 .pos-scanlines { position: fixed; inset: 0; pointer-events: none; z-index: 40;
-  background: repeating-linear-gradient(0deg, rgba(0,0,0,.14) 0 1px, transparent 1px 3px);
-  mix-blend-mode: multiply; }
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px); }
 .pos-scanlines::after { content:""; position:absolute; inset:0;
   background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.5)); }
 
@@ -913,6 +1160,7 @@ const CSS = `
 .pos-nav { display: flex; gap: 14px; flex-wrap: wrap; }
 .pos-nav a { color: var(--dim); text-decoration: none; transition: color .2s; }
 .pos-nav a:hover { color: var(--green-hi); }
+.pos-nav a.on { color: var(--green-hi); text-shadow: 0 0 10px rgba(52,211,153,.6); }
 .pos-status-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
 .pos-status-right button { background: transparent; border: 1px solid var(--line); color: var(--txt);
   font: inherit; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
@@ -939,6 +1187,7 @@ const CSS = `
 .pos-hero-links { margin-top: 26px; display: flex; gap: 18px; flex-wrap: wrap; }
 .pos-hero-links a { color: var(--cyan); text-decoration: none; border-bottom: 1px dashed rgba(34,211,238,.4); padding-bottom: 1px; }
 .pos-hero-links a:hover { color: #a5f3fc; border-bottom-style: solid; }
+.pos-hint { margin-top: 18px; font-size: 11.5px; letter-spacing: .08em; user-select: none; }
 
 /* sections */
 .pos-section { padding: 70px 6vw; max-width: 1200px; margin: 0 auto; }
@@ -948,13 +1197,14 @@ const CSS = `
 .dim { color: var(--dim); }
 
 /* reveal */
-.pos-reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.pos-reveal { opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; }
 .pos-reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .pos-reveal { opacity: 1; transform: none; } }
 
 /* terminal */
 .pos-term { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #030705;
-  box-shadow: 0 0 60px rgba(52,211,153,.07), inset 0 0 80px rgba(0,0,0,.6); cursor: text; }
+  box-shadow: 0 0 60px rgba(52,211,153,.07), inset 0 0 80px rgba(0,0,0,.6); cursor: text;
+  text-transform: lowercase; /* unix-chic: the terminal speaks only lowercase */ }
 .pos-term-bar { display: flex; align-items: center; gap: 7px; padding: 9px 13px; background: var(--panel);
   border-bottom: 1px solid var(--line); }
 .pos-term-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
@@ -1046,6 +1296,9 @@ const CSS = `
 .pos-footer { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
   padding: 26px 6vw 34px; color: var(--dim); font-size: 12px; border-top: 1px solid var(--line); }
 
+/* while dragging the sea: NOTHING is selectable (selection restored on release) */
+body.pos-dragging, body.pos-dragging * { user-select: none !important; -webkit-user-select: none !important; }
+
 /* decorative bits: not selectable (content stays selectable on purpose) */
 .pos-file-stamp, .pos-paper-stamp, .pos-boot, .pos-penguins, .pos-scanlines,
 .pos-boot-skip, .pos-kicker { user-select: none; }
@@ -1059,6 +1312,51 @@ const CSS = `
 .pos-penguin-msg { position: absolute; bottom: 8vh; width: 100%; text-align: center; color: var(--green-hi);
   font-size: 13px; letter-spacing: .08em; text-shadow: 0 0 18px rgba(52,211,153,.5); }
 
+/* 3D voyage — persistent world behind the whole site */
+.pos-scene3d { position: fixed; inset: 0; z-index: 0; }
+.pos-scene3d canvas { width: 100% !important; height: 100% !important; display: block; }
+.pos-root { background: transparent; }
+.pos-statusbar, .pos-hero-inner, .pos-section, .pos-footer { position: relative; z-index: 2; }
+
+/* sections float as glass panels in the water (no backdrop-filter: it forces
+   a per-frame re-blur of the animating canvas behind EVERY panel — jank city) */
+.pos-section { background: rgba(4, 10, 8, 0.84);
+  border: 1px solid var(--line); border-radius: 12px; margin: 26px auto; }
+.pos-footer { background: rgba(4, 10, 8, 0.84); }
+
+/* depth gauge */
+.pos-depth { position: fixed; right: 16px; bottom: 18px; z-index: 55; color: var(--green-hi);
+  font-size: 11px; letter-spacing: .14em; display: flex; align-items: flex-end; gap: 8px;
+  text-shadow: 0 0 12px rgba(52,211,153,.5); user-select: none; }
+.pos-depth-bar { width: 4px; height: 64px; border: 1px solid var(--line); border-radius: 2px;
+  display: inline-flex; align-items: flex-start; overflow: hidden; background: rgba(5,10,8,.6); }
+.pos-depth-bar span { display: block; width: 100%; background: linear-gradient(180deg, var(--green), var(--cyan)); }
+
+/* keel chat lines */
+.pos-term-body .keel { color: var(--cyan); }
+
+/* satellite uplink */
+.pos-uplink-wrap { position: relative; }
+.pos-globe { display: block; width: 100%; height: 300px; margin-bottom: 8px; }
+.pos-uplink { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 18px; font-size: 12.5px; }
+.pos-uplink-off { color: var(--dim); }
+.pos-uplink-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; color: var(--green-hi); }
+.pos-uplink-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 8px var(--green); margin-right: 6px; animation: pos-pulse 1.6s ease-in-out infinite; }
+.pos-uplink-dot.off { background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: none; }
+@keyframes pos-pulse { 50% { opacity: .35; } }
+.pos-uplink-blink { animation: pos-blink 1s steps(1) infinite; }
+.pos-uplink-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.pos-uplink-repo { display: block; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px;
+  text-decoration: none; color: inherit; transition: border-color .2s, transform .2s; }
+.pos-uplink-repo:hover { border-color: rgba(34,211,238,.5); transform: translateY(-2px); }
+.pos-uplink-repo .name { color: var(--cyan); font-weight: 700; }
+.pos-uplink-repo-top { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.pos-uplink-repo p { margin: 0 0 6px; color: var(--txt); font-size: 12px; line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pos-uplink-feed { border-top: 1px dashed var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+.pos-uplink-evt { display: flex; gap: 10px; color: var(--txt); font-size: 12px; }
+
 /* mobile */
 @media (max-width: 760px) {
   .pos-statusbar { flex-wrap: wrap; gap: 8px 14px; padding: 8px 14px; }
@@ -1068,6 +1366,7 @@ const CSS = `
   .pos-nav a { white-space: nowrap; font-size: 11px; }
   .pos-hero { min-height: 72vh; padding-top: 40px; }
   .pos-term-body { height: 320px; font-size: 12px; }
+  .pos-globe { height: 200px; }
   .pos-paper h3 { padding-right: 0; }
   .pos-section { padding: 48px 5vw; }
 }
