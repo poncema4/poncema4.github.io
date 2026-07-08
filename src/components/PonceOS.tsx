@@ -930,12 +930,17 @@ export function PonceOS() {
     // "you are here" nav beacon — pure DOM class flips, NO React state:
     // beacon state in the tree caused a full re-render at every section
     // boundary mid-scroll (the scroll hitch that briefly returned)
+    // track which sections are in the center band; light the beacon for the one
+    // that is, and clear it entirely when none are (e.g. up in the hero — this is
+    // why "terminal" used to stay stuck-lit at the top)
+    const inBand = new Set<string>();
     const secIo = new IntersectionObserver(
-      (es) => es.forEach((e) => {
-        if (!e.isIntersecting) return;
+      (es) => {
+        es.forEach((e) => { if (e.isIntersecting) inBand.add(e.target.id); else inBand.delete(e.target.id); });
+        const activeId = [...inBand][0];
         document.querySelectorAll(".pos-nav a").forEach((a) =>
-          a.classList.toggle("on", a.getAttribute("href") === `#${e.target.id}`));
-      }),
+          a.classList.toggle("on", !!activeId && a.getAttribute("href") === `#${activeId}`));
+      },
       { rootMargin: "-40% 0px -55% 0px" }
     );
     document.querySelectorAll("section[id]").forEach((el) => secIo.observe(el));
