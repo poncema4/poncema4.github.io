@@ -6,6 +6,7 @@
 // Zero external deps beyond what the repo already ships. No emojis; ASCII only.
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Scene3D } from "./ponce-os/scene3d";
+import { Fishing, FISHING_CSS } from "./ponce-os/fishing";
 import { SynthEngine } from "./ponce-os/audio";
 import { runVisitorScan } from "./ponce-os/scan";
 import { fetchGitHub, timeAgo } from "./ponce-os/github";
@@ -424,9 +425,9 @@ function buildNeofetch(): TLine[] {
     .concat(info.slice(TUX.length).map((s) => ({ text: " ".repeat(14) + s, cls: "neo" })));
 }
 
-function Terminal({ lang, setLang, playClick, onMatrix, music }: {
+function Terminal({ lang, setLang, playClick, onMatrix, onCast, music }: {
   lang: "en" | "es"; setLang: (l: "en" | "es") => void;
-  playClick: () => void; onMatrix: () => void;
+  playClick: () => void; onMatrix: () => void; onCast: () => void;
   music: { on: boolean; toggle: () => boolean };
 }) {
   const [lines, setLines] = useState<TLine[]>([
@@ -445,7 +446,7 @@ function Terminal({ lang, setLang, playClick, onMatrix, music }: {
   const scroller = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const COMMANDS = ["help","whoami","neofetch","ls","cat","history","nmap","ssh","sudo","ping","uname","matrix","lang","clear","resume","pwd","date","echo","exit","vim","reboot","su","stack","scan","github","music","keel","breach"];
+  const COMMANDS = ["help","whoami","neofetch","ls","cat","history","nmap","ssh","sudo","ping","uname","matrix","lang","clear","resume","pwd","date","echo","exit","vim","reboot","su","stack","scan","github","music","keel","breach","cast"];
 
   useEffect(() => { scroller.current?.scrollTo({ top: scroller.current.scrollHeight }); }, [lines]);
 
@@ -582,6 +583,7 @@ function Terminal({ lang, setLang, playClick, onMatrix, music }: {
           { text: "  music           procedural synthwave (synthesized, no files)" },
           { text: "  keel            open a chat channel with the first mate" },
           { text: "  breach          crack the firewall (minigame, flag inside)" },
+          { text: "  cast            fish off the port bow (no typing required)" },
           { text: "  ping keel | ssh rtx | reboot | clear" },
         ]);
         break;
@@ -673,6 +675,13 @@ function Terminal({ lang, setLang, playClick, onMatrix, music }: {
         break;
       case "uname": print([{ text: "ponce-os 5.0-arcova #1 smp x86_64 gnu/linux (panic-free since 2015)" }]); break;
       case "matrix": onMatrix(); print([{ text: "wake up, visitor...", cls: "dim" }]); break;
+      case "cast":
+        onCast();
+        print([
+          { text: "line in the water. the deck is yours.", cls: "hd" },
+          { text: "  space or click to cast — strike when the bobber goes red.", cls: "dim" },
+        ]);
+        break;
       case "lang":
         if (arg === "es") { setLang("es"); print([{ text: "idioma cambiado a espanol. bienvenido." }]); }
         else if (arg === "en") { setLang("en"); print([{ text: "language set to english. welcome back." }]); }
@@ -808,6 +817,11 @@ function Terminal({ lang, setLang, playClick, onMatrix, music }: {
           <input
             ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={onKey}
             spellCheck={false} autoCapitalize="off" autoComplete="off" aria-label="terminal input"
+            // iOS Safari autocorrects inside text inputs: "whoami" -> "who am I" silently
+            // rewrites a command the user typed correctly. A terminal must take input literally.
+            autoCorrect="off"
+            // makes the phone's return key read "go" instead of "return" — this input submits.
+            enterKeyHint="go"
             placeholder="type `help`"
           />
         </div>
@@ -881,6 +895,7 @@ export function PonceOS() {
   const [sound, setSound] = useState(false);
   const [matrix, setMatrix] = useState(false);
   const [penguins, setPenguins] = useState(false);
+  const [fishing, setFishing] = useState(false);
   const [webglOk, setWebglOk] = useState(true);
   const [musicOn, setMusicOn] = useState(false);
   const audioCtx = useRef<AudioContext | null>(null);
@@ -962,6 +977,12 @@ export function PonceOS() {
       <ScrollHud />
       {matrix && <MatrixRain onDone={() => setMatrix(false)} />}
       {penguins && <PenguinRain onDone={() => setPenguins(false)} />}
+      {fishing && <Fishing onClose={() => setFishing(false)} />}
+      {!fishing && (
+        <button className="cast-launch" onClick={() => setFishing(true)} aria-label="open the fishing minigame">
+          cast a line
+        </button>
+      )}
 
       {/* status bar */}
       <header className="pos-statusbar">
@@ -1011,6 +1032,7 @@ export function PonceOS() {
         <h2 className="pos-h2">[01] {t.sec_terminal}</h2>
         <p className="pos-sub">{t.terminal_hint}</p>
         <Terminal lang={lang} setLang={setLang} playClick={playClick} onMatrix={() => setMatrix(true)}
+          onCast={() => setFishing(true)}
           music={{ on: musicOn, toggle: toggleMusic }} />
       </section>
 
@@ -1375,6 +1397,9 @@ body.pos-dragging, body.pos-dragging * { user-select: none !important; -webkit-u
   .pos-paper h3 { padding-right: 0; }
   .pos-section { padding: 48px 5vw; }
 }
+
+/* cast — fishing minigame (self-contained, appended) */
+${FISHING_CSS}
 `;
 
 export default PonceOS;
