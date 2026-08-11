@@ -20,7 +20,7 @@ const CODING_SINCE = new Date("2015-06-01T00:00:00");
 
 const T = {
   en: {
-    role: "Cybersecurity Consulting Intern @ Arcova — AI Team",
+    role: "My personal website :) enjoy!",
     tagline: "I build AI systems that respect Zero Trust.",
     boot_skip: "press any key to skip",
     uptime: "uptime — coding since age 10",
@@ -55,7 +55,7 @@ const T = {
 
 const EXPERIENCE = [
   {
-    id: "ARC-2026", org: "Arcova", role: "Cybersecurity Consulting Intern", period: "JUN 2026 — ACTIVE",
+    id: "ARC-2026", org: "Arcova", role: "Cybersecurity Consulting Intern", period: "JUN 2026 — AUG 2026",
     clearance: "AI TEAM", loc: "Holmdel, NJ",
     log: [
       "Shipped a full-stack AI platform to GCP behind Entra ID SSO and 300+ CI tests, launching 4 LLM features to production",
