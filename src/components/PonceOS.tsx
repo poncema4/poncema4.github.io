@@ -88,11 +88,11 @@ const EXPERIENCE = [
     id: "PSH-2025", org: "PirateShield", role: "Software Engineer", period: "SEP 2025 — MAY 2026",
     clearance: "ZERO TRUST", loc: "Newark, NJ",
     log: [
-      "Implemented Zero-Trust anomaly detection using Python and C++, boosting IoT response speed by 45% across networks",
+      "Implemented Zero-Trust anomaly detection using Python and TypeScript, boosting IoT response by 45% across networks",
       "Optimized multi-threaded event processing with Docker, cutting CPU usage 30% and enhancing real-time data throughput",
       "Created scalable plug-and-play security APIs, accelerating K-12 deployment time by 60% and assisting 10+ organizations",
     ],
-    stack: ["Python", "TypeScript", "Docker", "Raspberry Pi"],
+    stack: ["Python", "TypeScript", "Docker", "Git", "Linux", "Raspberry Pi"],
   },
   {
     id: "RAI-2025", org: "Reality AI Lab", role: "Software Engineer Intern", period: "JUN 2025 — AUG 2025",
